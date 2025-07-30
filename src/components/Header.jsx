@@ -4,14 +4,14 @@ import { NavLink } from "react-router-dom";
 export default function Header(){
     return (
         <header>
-        <nav className="navbar navbar-expand-lg bg-body-light py-3">
+        <nav className="navbar navbar-expand-lg py-2" style={{backgroundColor:"pink"}}>
           <div className="container-fluid">
            
-            <NavLink to="/" className="navbar-brand me-4 me-lg-5 ms-5">
+            <NavLink to="/" className="navbar-brand me-4 me-lg-5 ms-3">
               <img 
                 src={logo} 
                 className="logo img-fluid rounded" 
-                style={{width: "200px"}} 
+                style={{width: "150px"}} 
                 alt="Glowora Logo" 
               />
             </NavLink>
@@ -46,13 +46,13 @@ export default function Header(){
                 ></button>
               </div>
               <div className="offcanvas-body">
-                <ul className="navbar-nav justify-content-start flex-grow-1 pe-3 fs-4">
+                <ul className="navbar-nav justify-content-start flex-grow-1 pe-3 fs-5">
                   <li className="nav-item">
                     <NavLink to="/" className="nav-link" aria-current="page">Home</NavLink>
                   </li>
 
                   <li className="nav-item">
-                    <NavLink to="/products/Makeup" className="nav-link" aria-current="page">Products</NavLink>
+                    <NavLink to="/products?category=Makeup" className="nav-link" aria-current="page">Products</NavLink>
                   </li>
 
                   {/* Add more nav items here */}

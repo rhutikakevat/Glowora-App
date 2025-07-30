@@ -26,7 +26,7 @@ export default function MainContent() {
             {categories?.data?.categories?.map((category) => (
               <div key={category._id} className="col-6 col-md-4 col-lg-3 col-xl-2">
                 <Link 
-                  to={`/products/${category.name}`}
+                  to={`/products?category=${encodeURIComponent(category.name)}`}
                   className="text-decoration-none text-dark"
                 >
                   <div className="card h-100 border-0 shadow-sm hover-shadow transition-all">
@@ -38,7 +38,7 @@ export default function MainContent() {
                       />
                     </div>
                     <div className="card-body text-center p-2">
-                      <h5 className="card-title mb-0 fs-5 py-2 fw-semibold">{category.name}</h5>
+                      <h6 className="card-title mb-0 fw-semibold py-2">{category.name}</h6>
                     </div>
                   </div>
                 </Link>
