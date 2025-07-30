@@ -5,8 +5,9 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 export default function ProductDetailPageComponents() {
     const { renderRatingStars,handleAddToCart,wishlistItems,
         handleAddToWishlist,productDetailsData,productDetailsloading,
-        ProductDetailsError,handleQuantityChange,handleBuyNow,quantity
-    } = useProductContext();
+        ProductDetailsError,handleQuantityChange,handleBuyNow,quantity,
+        setQuantity
+        } = useProductContext();
     
     
     return (

@@ -44,7 +44,7 @@ export const ProductContextProvider = ({ children }) => {
     const [quantity, setQuantity] = useState(1);
 
    // Listing Page  
-   
+
     const displayedProducts = (products?.data?.products || [])
         .filter((product) => {
             const filterCategory = selectedCategories.length === 0 ||
@@ -181,7 +181,7 @@ export const ProductContextProvider = ({ children }) => {
         handlerPriceChage,handlerRatingChange,displayedProducts,renderRatingStars,
         selectedRating,selectedPrice,selectedCategories,wishlistItems,selectedPriceForFilter,
         handlerPriceFilter,navigate,productDetailsData,productDetailsloading,
-        ProductDetailsError,handleQuantityChange,handleBuyNow,quantity
+        ProductDetailsError,handleQuantityChange,handleBuyNow,quantity,setQuantity
     }
     }>
       {children}
