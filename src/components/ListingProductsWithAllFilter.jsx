@@ -162,11 +162,11 @@ export default function ListingProductswithAllFilter() {
                                         <div key={product._id} className="col">
                                             <div className="card h-100 shadow-sm">
                                                 <div className="position-relative">
-                                                    <img  
+                                                    <img  onClick={()=>navigate(`/api/products/${product._id}`)} 
                                                         src={product.profileImage}
                                                         alt={product.name}
                                                         className="card-img-top p-3"
-                                                        style={{ height: "200px", objectFit: "contain" }}
+                                                        style={{ height: "200px", objectFit: "contain",cursor:"pointer" }}
                                                     />
 
                                                     <button
@@ -187,7 +187,7 @@ export default function ListingProductswithAllFilter() {
 
                                                 <div className="card-body d-flex flex-column">
                                                     <h5 onClick={()=>navigate(`/api/products/${product._id}`)} 
-                                                        style={{cursor:"pointer"}} className="card-title"
+                                                        style={{cursor:"pointer"}}  className="card-title"
                                                        >{product.name}</h5>
                                                     <div className="mb-2" style={{color:"#e54e78ff"}}>
                                                         <span className="fw-bold">MRP : ₹{product.price}</span>
