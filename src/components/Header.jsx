@@ -52,7 +52,7 @@ export default function Header(){
                   </li>
 
                   <li className="nav-item">
-                    <NavLink to="/products?category=Makeup" className="nav-link" aria-current="page">Products</NavLink>
+                    <NavLink to="/products" className="nav-link" aria-current="page">Products</NavLink>
                   </li>
 
                   {/* Add more nav items here */}

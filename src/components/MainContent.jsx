@@ -13,18 +13,9 @@ export default function MainContent() {
     products,
     productsLoading,
     productsError,
-    renderRatingStars
-  } = useProductContext();
-
-  const filterFeaturedProducts = products?.data?.products.filter((product) => product.isFeatured) || [];
-
-  const carouselImages = [
-    "https://makeupworldbd.com/makeupshop/storage/app/public/sliders/MAKEUP-19-01-2021.jpg",
-    "https://cmsimages.ssbeauty.in/Luxuryskincare_top_carousel_web_1_5381678edb/Luxuryskincare_top_carousel_web_1_5381678edb.jpg",
-    "https://www.perfumeprice.co.uk/media/wysiwyg/3800-x-1000-Summer-Sale-Banner.webp",
-    "https://th.bing.com/th/id/R.44d314a8e4e9d3e7c2f791c286066b06?rik=Ma71QknUFKr%2fZQ&riu=http%3a%2f%2fwww.thehouseofnails.ie%2fwp-content%2fuploads%2f2020%2f07%2fbanner3.jpg&ehk=L704L2fVebPi%2f903U7IVk8Nvk4Eji3LhbyUR%2byGx%2bb8%3d&risl=&pid=ImgRaw&r=0",
-    "https://cdn.vectorstock.com/i/500p/03/54/realistic-cosmetic-banner-makeup-products-sale-vector-50040354.jpg",
-  ];
+    renderRatingStars,
+    filterFeaturedProducts, carouselImages
+  } = useProductContext();  
 
   return (
     <main className="container py-4">

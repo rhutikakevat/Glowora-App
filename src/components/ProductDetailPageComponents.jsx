@@ -62,8 +62,7 @@ export default function ProductDetailPageComponents() {
                                 </div>
 
                                 <div className="col-md-7">
-                                    <div className="ms-5">
-                                    <h3 className="mb-3">{productDetailsData?.data?.product?.name}</h3>
+                                   <h3 className="mb-3">{productDetailsData?.data?.product?.name}</h3>
                                     <p className="text-muted mb-3">{productDetailsData?.data?.product?.details}</p>
                                     <p className="mb-2">
                                         <strong>Brand's Name:</strong> {productDetailsData?.data?.product?.brand}
@@ -149,8 +148,7 @@ export default function ProductDetailPageComponents() {
                                                 </li>
                                             </ul>
                                         </div>
-                                    </div>
-                                    </div>
+                                    </div>                                  
                                 </div>
                             </div>
                         ) : (
