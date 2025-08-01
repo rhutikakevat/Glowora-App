@@ -43,6 +43,11 @@ export const ProductContextProvider = ({ children }) => {
     const [ProductDetailsError, setProductDetailsError] = useState(null);
     const [quantity, setQuantity] = useState(1);
 
+    //Home page
+
+    const filterFeaturedProducts = products?.data?.products.filter((product) => product.isFeatured);
+
+
    // Listing Page  
 
     const displayedProducts = (products?.data?.products || [])
@@ -181,7 +186,8 @@ export const ProductContextProvider = ({ children }) => {
         handlerPriceChage,handlerRatingChange,displayedProducts,renderRatingStars,
         selectedRating,selectedPrice,selectedCategories,wishlistItems,selectedPriceForFilter,
         handlerPriceFilter,navigate,productDetailsData,productDetailsloading,
-        ProductDetailsError,handleQuantityChange,handleBuyNow,quantity,setQuantity
+        ProductDetailsError,handleQuantityChange,handleBuyNow,quantity,setQuantity,
+        filterFeaturedProducts    
     }
     }>
       {children}

@@ -7,8 +7,7 @@ export default function ProductDetailPageComponents() {
         handleAddToWishlist,productDetailsData,productDetailsloading,
         ProductDetailsError,handleQuantityChange,handleBuyNow,quantity,
         setQuantity
-        } = useProductContext();
-    
+        } = useProductContext();    
     
     return (
         <>
@@ -37,7 +36,7 @@ export default function ProductDetailPageComponents() {
 
                                         {productDetailsData?.data?.product?.isFeatured && (
                                         <span className="badge bg-success mb-2 py-2 position-absolute"
-                                        style={{fontFamily:"sans-serif",fontSize:"85%"}}
+                                        style={{fontFamily:"sans-serif",fontSize:"90%",marginTop:"15px",marginLeft:"15px"}}
                                         >
                                             Featured</span>
                                         )}
@@ -126,6 +125,16 @@ export default function ProductDetailPageComponents() {
                                             <h3 className="mb-3 mt-2">Description: </h3>
 
                                             <ul className="list-unstyled">
+                                                <li className="mb-2">
+                                                    <strong>Product ID:</strong> {productDetailsData?.data?.product?._id}
+                                                </li>
+                                                <li className="mb-2">
+                                                    <strong>Product's Category:</strong> {productDetailsData?.data?.product?.category}
+                                                    {/* Change id to name of category */}
+                                                </li>
+                                                <li className="mb-2">
+                                                    <strong>Rating:</strong> {productDetailsData?.data?.product?.ratings} out of 5
+                                                </li>
                                                 <li className="mb-2">
                                                     <strong>Manufacturer:</strong> {productDetailsData?.data?.product?.description?.manufacturer}
                                                 </li>

@@ -46,7 +46,7 @@ export default function Header(){
                 ></button>
               </div>
               <div className="offcanvas-body">
-                <ul className="navbar-nav justify-content-start flex-grow-1 pe-3 fs-5">
+                <ul className="navbar-nav justify-content-start fw-semibold flex-grow-1 pe-3 fs-5">
                   <li className="nav-item">
                     <NavLink to="/" className="nav-link" aria-current="page">Home</NavLink>
                   </li>
