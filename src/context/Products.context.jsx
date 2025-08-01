@@ -59,7 +59,9 @@ export const ProductContextProvider = ({ children }) => {
 
 
    // Listing Page  
-
+    const [showFilters, setShowFilters] = useState(false);  
+    const categoryParam = searchParams.get("category");
+          
     const displayedProducts = (products?.data?.products || [])
         .filter((product) => {
             const filterCategory = selectedCategories.length === 0 ||
@@ -147,6 +149,24 @@ export const ProductContextProvider = ({ children }) => {
         return stars;
     };
 
+    useEffect(() => {
+        if (categoryParam && categories?.data?.categories) {
+            const categoryExists = categories.data.categories.some(
+                (categoryForFilter) => categoryForFilter.name === categoryParam
+            );          
+
+            if (categoryExists && !selectedCategories.includes(categoryParam)) {
+                const mockEvent = {
+                    target: { name: "categories", value: categoryParam, checked: true }
+                };        
+                handleCategoryChange(mockEvent);
+
+                // learn logic
+            }
+        }
+    }, [categoryParam, categories, selectedCategories, handleCategoryChange]);
+
+
     // Product Details Page 
 
     useEffect(() => {
@@ -199,7 +219,8 @@ export const ProductContextProvider = ({ children }) => {
         selectedRating,selectedPrice,selectedCategories,wishlistItems,selectedPriceForFilter,
         handlerPriceFilter,navigate,productDetailsData,productDetailsloading,
         ProductDetailsError,handleQuantityChange,handleBuyNow,quantity,setQuantity,
-        filterFeaturedProducts, carouselImages, searchParams    
+        filterFeaturedProducts, carouselImages, searchParams, showFilters, setShowFilters,
+       
     }
     }>
       {children}

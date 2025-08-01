@@ -11,6 +11,7 @@ export default function ProductDetailPageComponents() {
     
     return (
         <>
+        <main className="container py-4">
             <h2 className="mb-5 mt-3">Product Details</h2>
 
             <div>
@@ -159,6 +160,7 @@ export default function ProductDetailPageComponents() {
                     </div>
                 )}
             </div>
+            </main>
         </>
     )
 }

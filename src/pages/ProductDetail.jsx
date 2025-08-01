@@ -7,11 +7,12 @@ export default function ProductDetail() {
     return (
         <>
             <ProductContextProvider>
-                <Header />
-                <main className="container py-4">
-                    <ProductDetailPageComponents />
-                </main>
+                <Header />              
+
+                    <ProductDetailPageComponents />              
+
                 <Footer />
+
             </ProductContextProvider>
         </>
     )

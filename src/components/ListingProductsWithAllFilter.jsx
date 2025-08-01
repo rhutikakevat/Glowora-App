@@ -2,8 +2,6 @@ import { useProductContext } from "../context/Products.context";
 import Slider from "@mui/material/Slider";
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import { useState } from "react";
-import { useEffect } from "react";
 import { FiFilter } from "react-icons/fi";
 
 export default function ListingProductswithAllFilter() {    
@@ -11,27 +9,10 @@ export default function ListingProductswithAllFilter() {
         handleAddToCart, handleAddToWishlist, handleCategoryChange, handlerClearAll,
         handlerPriceChage, handlerRatingChange, displayedProducts, renderRatingStars,
         selectedRating, selectedPrice, selectedCategories, wishlistItems, selectedPriceForFilter,
-        handlerPriceFilter, navigate, searchParams
+        handlerPriceFilter, navigate, showFilters, setShowFilters, 
      } = useProductContext();
 
-    const [showFilters, setShowFilters] = useState(false);  
-    const categoryParam = searchParams.get("category");
-          
-    useEffect(() => {
-        if (categoryParam && categories?.data?.categories) {
-            const categoryExists = categories.data.categories.some(
-                (categoryForFilter) => categoryForFilter.name === categoryParam
-            );          
-
-            if (categoryExists && !selectedCategories.includes(categoryParam)) {
-                const mockEvent = {
-                    target: { name: "categories", value: categoryParam, checked: true }
-                };        
-                handleCategoryChange(mockEvent);
-            }
-        }
-    }, [categoryParam, categories, selectedCategories, handleCategoryChange]);
-
+   
     const renderFilters = () => (
         <div className="card shadow-sm border-0 mt-2">
             <div className="card-body">

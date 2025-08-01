@@ -8,8 +8,11 @@ export default function ProductsListing() {
         <>
             <ProductContextProvider>
                 <Header />
+
                 <ListingProductswithAllFilter />
+
                 <Footer />
+                
             </ProductContextProvider>
         </>
     );
