@@ -3,6 +3,7 @@ import Slider from "@mui/material/Slider";
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { FiFilter } from "react-icons/fi";
+import 'bootstrap-icons/font/bootstrap-icons.css';
 
 export default function ListingProductswithAllFilter() {    
     const { categories, productsLoading, productsError,
@@ -189,10 +190,16 @@ export default function ListingProductswithAllFilter() {
                                     padding: '10px 16px'
                                 }}
                             >
-                                <FiFilter size={18} />
+                                <FiFilter size={17} />
                                 {showFilters ? 'Hide Filters' : 'Show Filters'}
+                                <i className={`bi bi-chevron-${showFilters ? "up" : "down"} ms-2`}></i>
+                            
                             </button>
-                            {showFilters && renderFilters()}
+
+                            {showFilters && (
+                                <div className="mt-3">
+                                    {renderFilters()}
+                                </div>)}
                         </div>
 
                         {/* Desktop Filters */}
