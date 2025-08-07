@@ -4,20 +4,55 @@ import ShippingLogo from "/shippingLogo.png";
 import ReturnsLogo from "/Returns.png";
 import AuthenticLogo from "/Authentic.png";
 import CustomersLogo from "/Customers.png";
+import Header from "./Header";
+import Footer from "./Footer";
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
 export default function MainContent() {
   const {
     categories,
     categoriesLoading,
     categoriesError,
-    products,
     productsLoading,
     productsError,
-    renderRatingStars,
-    filterFeaturedProducts, carouselImages
-  } = useProductContext();  
+    renderRatingStars,handleAddToWishlist,
+    filterFeaturedProducts, navigate,
+    carouselImages,wishlistItems
+  } = useProductContext(); 
+  
+  if (categoriesLoading || productsLoading){
+    return (
+      <main className="container vh-100 d-flex 
+      flex-column justify-content-center align-items-center text-center">
+     
+         <div className="spinner-border text-danger" role="status"> 
+          <span className="visually-hidden">Loading...</span>
+        </div>
+        <p className="mt-4 fs-4 fw-semibold">
+          Please wait, Loading...
+        </p>
+       
+      </main>
+    )
+  }
+
+ if (categoriesError || productsError) {
+    return (
+      <main className="container py-5 text-center">
+        <div className="alert alert-danger">
+          {categoriesError
+            ? `Error loading categories: ${categoriesError.message}`
+            : `Error loading products: ${productsError.message}`}
+        </div>
+      </main>
+    );
+  }
 
   return (
+    <>
+    <Header />
+
     <main className="container py-4">
 
       {/* Carousel Section */}
@@ -27,22 +62,24 @@ export default function MainContent() {
         data-bs-ride="carousel">
           <div className="carousel-inner rounded-4">
             {carouselImages.map((img, index) => (
-              <div className={`carousel-item ${index === 0 ? 'active' : ''}`} key={index}>
+              <div className={`carousel-item ${index === 0 ? 'active' : ''}`} 
+              key={index}>
                 <img 
                   src={img} 
                   className="d-block w-100" 
-                  alt={`Promo ${index + 1}`}
-                  style={{ height: '350px', objectFit: 'cover' }}
+                  alt={`Promo ${index + 1}`}         
                  
                 />
               </div>
             ))}
           </div>
-          <button className="carousel-control-prev" type="button" data-bs-target="#mainCarousel" data-bs-slide="prev">
+          <button className="carousel-control-prev" type="button" 
+          data-bs-target="#mainCarousel" data-bs-slide="prev">
             <span className="carousel-control-prev-icon" aria-hidden="true"></span>
             <span className="visually-hidden">Previous</span>
           </button>
-          <button className="carousel-control-next" type="button" data-bs-target="#mainCarousel" data-bs-slide="next">
+          <button className="carousel-control-next" type="button" 
+          data-bs-target="#mainCarousel" data-bs-slide="next">
             <span className="carousel-control-next-icon" aria-hidden="true"></span>
             <span className="visually-hidden">Next</span>
           </button>
@@ -54,33 +91,24 @@ export default function MainContent() {
       
       <section className="py-4">
         <div className="text-center mb-4">
-          <h3 className="fw-bold mb-3" style={{ color: '#f11c58ff' }}>Shop By Category</h3>
-          <hr className="mx-auto" style={{ width: '100px', borderTop: '3px solid #f11c58ff' }} />
+          <h3 className="fw-bold mb-3" style={{ color: '#f11c58ff' }}>
+            Shop By Category
+          </h3>
+          <hr className="mx-auto" 
+          style={{ width: '100px', borderTop: '3px solid #f11c58ff' }} />
         </div>
 
-        {categoriesError ? (
-          <div className="alert alert-danger text-center">
-            An error occurred while loading categories: {categoriesError.message}
-          </div>
-        ) : categoriesLoading ? (
-          <div className="text-center">
-            <div className="spinner-border text-primary" role="status">
-              <span className="visually-hidden">Loading...</span>
-            </div>
-            <p className="mt-2">Loading categories...</p>
-          </div>
-        ) : (
           <div className="row g-3 justify-content-center mt-3">
             {categories?.data?.categories?.map((category) => (
               <div 
                 key={category._id} 
-                className="col-4 col-sm-3 col-md-2"
+                className="col-6 col-sm-6 col-md-4 col-lg-2 mb-3"
               >
                 <Link
                   to={`/products?category=${category.name}`}
                   className="text-decoration-none text-dark"
                 >
-                  <div className="card h-100 border-0 shadow-sm hover-shadow transition-all">
+                  <div className="card category-card h-100 border-0 shadow-sm">
                     <div className="ratio ratio-1x1">
                       <img
                         src={category.image}
@@ -99,7 +127,6 @@ export default function MainContent() {
               </div>
             ))}
           </div>
-        )}
       </section>
 
 
@@ -184,64 +211,111 @@ export default function MainContent() {
           <hr className="mx-auto" style={{ width: '100px', borderTop: '3px solid #f11c58ff' }} />
         </div>
 
-        {productsError ? (
-          <div className="alert alert-danger text-center">
-            An error occurred while loading products: {productsError.message}
-          </div>
-        ) : productsLoading ? (
-          <div className="text-center">
-            <div className="spinner-border text-primary" role="status">
-              <span className="visually-hidden">Loading...</span>
-            </div>
-            <p className="mt-2">Loading Products...</p>
-          </div>
-        ) : (
-          <div className="row g-3 mt-3">
-            {filterFeaturedProducts && filterFeaturedProducts.map((product) => (
+         <div className="row g-3 mt-3">
+            {filterFeaturedProducts.length > 0 ? filterFeaturedProducts.map((product) => (
               <div 
                 key={product._id} 
                 className="col-6 col-md-4 col-lg-3"
               >
-                <Link
-                  to={`/api/products/${product._id}`}
-                  className="text-decoration-none text-dark"
-                >
-                  <div className="card h-100 border-0 shadow-sm hover-shadow transition-all product-card">
-                    <div className="ratio ratio-1x1">
+                <div className="card h-100 border-0 shadow-sm hover-shadow transition-all product-card">
+                    <div className="position-relative">
                       <img
                         src={product.profileImage}
                         className="card-img-top object-fit-cover p-3"
                         alt={product.name}
-                      
+                        onClick={(event) => {
+                           event.preventDefault();
+                           navigate(`/api/products/${product._id}`)
+                             }} 
                         style={{ objectFit: 'contain' }}
                       />
+
+                       <button
+                          onClick={() => handleAddToWishlist(product._id)}
+                          className="btn btn-light position-absolute top-0 end-0 m-2 rounded-circle"
+                          style={{
+                              height: "40px",
+                              width: "40px",
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center'
+                                  }}
+                            aria-label={wishlistItems.includes(product._id) ? "Remove from wishlist" : "Add to wishlist"}
+                           >{wishlistItems.includes(product._id) ?
+                               <FavoriteIcon className="text-danger" /> :
+                               <FavoriteBorderIcon />
+                              }
+                        </button>
+                                                        
                     </div>
                     <div className="card-body p-2 text-center">
-                      <h6 className="card-title fw-semibold mb-1" style={{ fontSize: '0.85rem' }}>
+                      <h6  onClick={() => {
+                            navigate(`/api/products/${product._id}`)
+                                                        }} 
+                       className="card-title fw-semibold mb-1" style={{ fontSize: '0.85rem' }}>
                         {product.name}
                       </h6>
                       <div className="small text-muted mb-1">Brand: {product.brand}</div>
-                      <div className="mb-1">
-                        {renderRatingStars(product.ratings)}{" "}
-                        <span className="small">({product.ratings})</span>
-                      </div>
-                      <div className="fw-bold mb-1" style={{ color: '#f11c58ff', fontSize: '0.95rem' }}>
-                        ₹{product.price}
-                      </div>
-                      <div 
+                       <div 
                         className={`badge ${product.stock ? 'bg-success' : 'bg-danger'} py-1 mb-1`}
                         style={{ fontSize: '0.7rem' }}
                       >
                         {product.stock ? "In Stock" : "Out of Stock"}
+                      </div>                      
+                      <div className="fw-bold fs-5 mt-2 mb-2" style={{ color: '#f11c58ff', fontSize: '0.95rem' }}>
+                        ₹{product.price}
                       </div>
+                      <div className="mb-3">
+                        {renderRatingStars(product.ratings)}{" "}
+                        <span className="small">({product.ratings})</span>
+                      </div>
+
+                      <div className="d-grid gap-2 col-5 mb-2 mx-auto">
+                       <button
+                         onClick={() => handleAddToCart(product._id)}
+                         className="btn text-light"
+                           style={{
+                             backgroundColor: "#f11c58ff",
+                             border: 'none',
+                             padding: '4px',
+                             borderRadius: '8px'
+                                }}
+                        >
+                           Add to Cart
+                       </button>
+                      </div>                     
                     </div>
                   </div>
-                </Link>
+              
               </div>
-            ))}
+            ))
+            :
+            <p className="text-center text-muted">Products does not found!</p>
+            }
           </div>
-        )}
       </section>
+
+      <style>
+        {
+          `
+          .product-card:hover {
+            transform: scale(1.05);
+            transition: transform 0.1s ease;
+            cursor: pointer
+          }   
+            
+           .category-card:hover {
+              transform: scale(1.05);
+              transition: transform 0.1s ease-in-out;
+              box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+              cursor: pointer
+            }
+          `
+        }
+      </style>
     </main>
+
+    <Footer />
+</>
   );
 }

@@ -55,6 +55,10 @@ export default function Header(){
                     <NavLink to="/products" className="nav-link" aria-current="page">Products</NavLink>
                   </li>
 
+                   <li className="nav-item">
+                    <NavLink to="/wishlist/products" className="nav-link" aria-current="page">Wishlist</NavLink>
+                  </li>
+
                   {/* Add more nav items here */}
                   {/* change for make e-commerce page nav*/}
                   {/* add active link feature */}

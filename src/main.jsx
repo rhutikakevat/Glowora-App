@@ -5,6 +5,7 @@ import './index.css'
 import App from './App.jsx'
 import ProductsListing from './pages/ProductsListing.jsx'
 import ProductDetail from './pages/ProductDetail.jsx'
+import WishlistProducts from './pages/Wishlist.jsx'
 
 const routes = createBrowserRouter([
   {
@@ -18,6 +19,10 @@ const routes = createBrowserRouter([
   {
     path:"/api/products/:productId",
     element:<ProductDetail/>
+  },
+  {
+    path:"/wishlist/products",
+    element:<WishlistProducts/>
   }
 ])
 

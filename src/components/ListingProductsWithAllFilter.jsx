@@ -4,6 +4,8 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { FiFilter } from "react-icons/fi";
 import 'bootstrap-icons/font/bootstrap-icons.css';
+import Footer from "./Footer";
+import Header from "./Header";
 
 export default function ListingProductswithAllFilter() {    
     const { categories, productsLoading, productsError,
@@ -85,7 +87,7 @@ export default function ListingProductswithAllFilter() {
 
                 <div className="mb-4">
                     <h6 className="mb-3 fw-semibold">Customer Ratings</h6>
-                    <Slider 
+                    <Slider  
                         value={selectedRating}
                         onChange={handlerRatingChange}
                         aria-labelledby="rating-slider"
@@ -152,7 +154,34 @@ export default function ListingProductswithAllFilter() {
         </div>
     );
 
+    if (productsLoading){
+        return (
+            <main className="container vh-100 d-flex 
+                  flex-column justify-content-center align-items-center text-center">
+            
+                <div className="spinner-border text-danger" role="status"> 
+                <span className="visually-hidden">Loading...</span>
+                </div>
+                <p className="mt-4 fs-4 fw-semibold">
+                Please wait, Loading...
+                </p>            
+            </main>
+        )
+    }
+
+    if (productsError){
+        return (
+            <main className="container py-5 text-center">
+        <div className="alert alert-danger">
+           An error occurred while loading categories: {productsError.message}
+        </div>
+      </main>
+        )
+    }
+
     return (
+        <>
+        <Header/>
         <main className="container py-4">
             <div className="py-2 mb-3">
                 <h2 className="text-center text-md-start" style={{ color: '#f11c58ff' }}>
@@ -162,18 +191,6 @@ export default function ListingProductswithAllFilter() {
             </div>
 
             <div>
-                {productsError ? (
-                    <div className="alert alert-danger text-center">
-                        An error occurred while loading categories: {productsError.message}
-                    </div>
-                ) : productsLoading ? (
-                    <div className="text-center py-5">
-                        <div className="spinner-border text-primary" role="status">
-                            <span className="visually-hidden">Loading...</span>
-                        </div>
-                        <p className="mt-2">Loading products...</p>
-                    </div>
-                ) : (
                     <div className="row">
 
                         {/* Filters Section */}
@@ -211,6 +228,7 @@ export default function ListingProductswithAllFilter() {
                         {/* Products Listing */}
 
                         <div className="col-lg-9 col-md-8 mt-4">
+                            <h3 className="mb-4 py-2 border-bottom">All Products {" "}({displayedProducts.length})</h3>
                             {displayedProducts.length > 0 ? (
                                 <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
                                     {displayedProducts.map((product) => (
@@ -277,6 +295,7 @@ export default function ListingProductswithAllFilter() {
                                                         </div>
                                                         <small className="text-muted">({product.ratings})</small>
                                                     </div>
+                                                    
                                                     <button
                                                         onClick={() => handleAddToCart(product._id)}
                                                         className="btn mt-auto text-light fw-semibold"
@@ -310,8 +329,11 @@ export default function ListingProductswithAllFilter() {
                             )}
                         </div>
                     </div>
-                )}
+            
             </div>
         </main>
+
+        <Footer/>
+        </>
     );
 }

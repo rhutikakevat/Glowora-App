@@ -7,11 +7,11 @@ export default function ProductsListing() {
     return (
         <>
             <ProductContextProvider>
-                <Header />
+                
 
                 <ListingProductswithAllFilter />
 
-                <Footer />
+    
                 
             </ProductContextProvider>
         </>
