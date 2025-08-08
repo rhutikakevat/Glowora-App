@@ -17,7 +17,7 @@ const routes = createBrowserRouter([
     element:<ProductsListing/>
   },
   {
-    path:"/api/products/:productId",
+    path:"/products/:productId",
     element:<ProductDetail/>
   },
   {

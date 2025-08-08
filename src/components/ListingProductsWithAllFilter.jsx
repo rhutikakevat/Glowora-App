@@ -238,7 +238,7 @@ export default function ListingProductswithAllFilter() {
                                                     <img  
                                                         onClick={(event) => {
                                                             event.preventDefault();
-                                                            navigate(`/api/products/${product._id}`)
+                                                            navigate(`/products/${product._id}`)
                                                         }} 
                                                         src={product.profileImage}
                                                         alt={product.name}

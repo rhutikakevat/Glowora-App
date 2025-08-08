@@ -1,16 +1,16 @@
-import Footer from "../components/Footer";
-import Header from "../components/Header";
+import WishlistProductsList from "../components/WishlistProductsList";
+import { ProductContextProvider } from "../context/Products.context";
 
 export default function WishlistProducts(){
+
+
     return (
         <>
-        <Header/>
-        
-        <main>
-            
-        </main>
+         <ProductContextProvider>
 
-        <Footer/>
+            <WishlistProductsList/>
+
+         </ProductContextProvider>
         </>
     )
 }

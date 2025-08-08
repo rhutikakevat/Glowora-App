@@ -225,7 +225,7 @@ export default function MainContent() {
                         alt={product.name}
                         onClick={(event) => {
                            event.preventDefault();
-                           navigate(`/api/products/${product._id}`)
+                           navigate(`/products/${product._id}`)
                              }} 
                         style={{ objectFit: 'contain' }}
                       />
@@ -250,7 +250,7 @@ export default function MainContent() {
                     </div>
                     <div className="card-body p-2 text-center">
                       <h6  onClick={() => {
-                            navigate(`/api/products/${product._id}`)
+                            navigate(`/products/${product._id}`)
                                                         }} 
                        className="card-title fw-semibold mb-1" style={{ fontSize: '0.85rem' }}>
                         {product.name}
