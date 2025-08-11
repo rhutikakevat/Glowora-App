@@ -139,7 +139,7 @@ export const ProductContextProvider = ({ children }) => {
                     headers: {
                         "Content-Type": "application/json"
                     },
-                    body: JSON.stringify({  productId })
+                    body: JSON.stringify({ product: productId })
                 }
             );
 
@@ -149,7 +149,7 @@ export const ProductContextProvider = ({ children }) => {
 
             const newProductData = await response.json();
 
-            setWishlistItems(prev => [...prev, newProductData.data]);
+            setWishlistItems(prev => [...prev, productId]);
         }
 
         } catch (error) {
@@ -235,7 +235,7 @@ export const ProductContextProvider = ({ children }) => {
 
     const handleBuyNow = () => {
         // write logic
-    }
+    }  
 
 
   return (
