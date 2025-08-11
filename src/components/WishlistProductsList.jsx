@@ -1,94 +1,16 @@
 import Header from "./Header";
 import Footer from "./Footer";
-import { useEffect, useState } from "react";
 import { useProductContext } from "../context/Products.context";
-import { useNavigate } from "react-router-dom";
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 
 export default function WishlistProductsList() {
-    const { renderRatingStars,wishlistItems } = useProductContext();
-    const navigate = useNavigate();
+    const { renderRatingStars, wishlistItems, handleAddToCart,navigate,
+         wishlistLoading, wishlistError, handleRemoveFromWishlist
 
-    const [wishlistProduct, setWishlistProduct] = useState([]);
-    const [wishlistError, setWishlistError] = useState(null);
-    const [wishlistLoading, setWishlistLoading] = useState(false);
+      } = useProductContext();
 
-    // Fetch Wishlist Products
-    useEffect(() => {
-       const fetchWishlistProductDetails = async () => {
-            setWishlistLoading(true);
-
-            try {
-                const response = await fetch(
-                    `https://glowora-app-backend-api.vercel.app/api/wishlist/products`
-                );
-
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-
-                const wishlistProductDetailsData = await response.json();
-
-               if(wishlistProductDetailsData){
-                setWishlistProduct(wishlistProductDetailsData?.data);
-                setWishlistError(null);
-               }
-            } catch (error) {
-                console.error("Error occurred while fetching the data: ", error);
-                setWishlistError(error.message);
-            } finally {
-                setWishlistLoading(false);
-            }
-        };
-
-       fetchWishlistProductDetails();
-    }, []);
-
-
-    // Remove Item from Wishlist
-    const handleRemoveFromWishlist = async (productId) => {
-        try {
-            const response = await fetch(
-                `https://glowora-app-backend-api.vercel.app/api/wishlist/product/${productId}`,
-                { method: "DELETE" }
-            );
-
-            if (!response.ok) {
-                throw new Error(`Failed to remove item: ${response.status}`);
-            }
-
-            setWishlistProduct((prev) =>
-                prev.filter((item) => item._id !== productId)
-            );
-        } catch (error) {
-            console.error("Error removing Product from wishlist:", error);
-        }
-    };
-
-    //Add Item to Cart (increase quantity if already there)
-    const handleAddToCart = async (productId) => {
-        try {
-            const response = await fetch(
-                `https://glowora-app-backend-api.vercel.app/api/cart`,
-                {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ productId, quantity: 1 })
-                }
-            );
-
-            if (!response.ok) {
-                throw new Error(`Failed to add to cart: ${response.status}`);
-            }
-
-            alert("Item added to cart!");
-        } catch (error) {
-            console.error("Error adding to cart:", error);
-        }
-    };
-
-    // Loading message 
+        // Loading message 
     if (wishlistLoading) {
         return (
             <main className="container vh-100 d-flex flex-column justify-content-center align-items-center text-center">
@@ -117,20 +39,20 @@ export default function WishlistProductsList() {
             <Header />
             <main className="container py-4">                
                         <div className="col-lg-9 col-md-8 mt-4">
-                            <h3 className="mb-4 py-2 border-bottom">All Wishlist Products {" "}({wishlistProduct.length})</h3>
-                            {wishlistProduct.length > 0 ? (
+                            <h3 className="mb-4 py-2 border-bottom">All Wishlist Products {" "}({wishlistItems.length})</h3>
+                            {wishlistItems.length > 0 ? (
                                 <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
-                                    {wishlistProduct.map((product) => (
-                                        <div key={product._id} className="col">
+                                    {wishlistItems.map((product) => (
+                                        <div key={product?._id} className="col">
                                             <div className="card h-100 shadow-sm border-0">
                                                 <div className="position-relative">
                                                     <img  
                                                         onClick={(event) => {
                                                             event.preventDefault();
-                                                            navigate(`/products/${product._id}`)
+                                                            navigate(`/products/${product?._id}`)
                                                         }} 
-                                                        src={product.product.profileImage}
-                                                        alt={product.product.name}
+                                                        src={product?.product?.profileImage}
+                                                        alt={product?.product?.name}
                                                         className="card-img-top p-2"
                                                         style={{ 
                                                             height: "200px", 
@@ -141,18 +63,18 @@ export default function WishlistProductsList() {
                                                     />
 
                                                     <button
-                                                        onClick={() => handleAddToWishlist(product._id)}
+                                                        onClick={()=>handleRemoveFromWishlist(product?._id)}
                                                         className="btn btn-light position-absolute top-0 end-0 m-2 rounded-circle"
                                                         style={{
                                                             height: "40px",
                                                             width: "40px",
                                                             display: 'flex',
                                                             alignItems: 'center',
-                                                            justifyContent: 'center'
+                                                            justifyContent: 'center'  
                                                         }}
-                                                        aria-label={wishlistItems.includes(product._id) ? "Remove from wishlist" : "Add to wishlist"}
+                                                        aria-label={wishlistItems.some((item)=>item?.product?._id === product?.product?._id) ? "Remove from wishlist" : "Add to wishlist"}
                                                     >
-                                                        {wishlistItems.includes(product._id) ?
+                                                        {wishlistItems.some(item => item?.product?._id === product?.product?._id) ?
                                                             <FavoriteIcon className="text-danger" /> :
                                                             <FavoriteBorderIcon />
                                                         }
@@ -173,20 +95,20 @@ export default function WishlistProductsList() {
                                                         }}  
                                                         className="card-title"
                                                     >
-                                                        {product.product.name}
+                                                        {product.product?.name}
                                                     </h5>
                                                     <div className="mb-2" style={{color:"#f11c58ff"}}>
-                                                        <span className="fw-bold">MRP: ₹{product.product.price}</span>
+                                                        <span className="fw-bold">MRP: ₹{product?.product?.price}</span>
                                                     </div>
                                                     <div className="d-flex align-items-center mb-3">
                                                         <div className="me-2">
-                                                            {renderRatingStars(product.product.ratings)}
+                                                            {renderRatingStars(product?.product?.ratings)}
                                                         </div>
-                                                        <small className="text-muted">({product.product.ratings})</small>
+                                                        <small className="text-muted">({product?.product?.ratings})</small>
                                                     </div>
                                                     
                                                     <button
-                                                        onClick={() => handleAddToCart(product._id)}
+                                                        onClick={()=>handleAddToCart(product._id)}
                                                         className="btn mt-auto text-light fw-semibold"
                                                         style={{
                                                             backgroundColor: "#f11c58ff",

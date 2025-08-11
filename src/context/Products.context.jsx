@@ -30,7 +30,16 @@ export const ProductContextProvider = ({ children }) => {
   } = useFetch(categoryApi);
 
    
-    const [wishlistItems, setWishlistItems] = useState([]);
+  const [wishlistItems, setWishlistItems] = useState(() => {
+    const savedWishlist = localStorage.getItem("wishlistItems");
+    return savedWishlist ? JSON.parse(savedWishlist) : [];
+    });
+
+    useEffect(() => {
+    localStorage.setItem("wishlistItems", JSON.stringify(wishlistItems));
+    }, [wishlistItems]);
+
+
     const [selectedCategories, setSelectedCategories] = useState([]);
     const [selectedRating, setSelectedRating] = useState(0);
     const [selectedPrice, setSelectedPrice] = useState("");
@@ -44,6 +53,9 @@ export const ProductContextProvider = ({ children }) => {
     const [ProductDetailsError, setProductDetailsError] = useState(null);
     const [quantity, setQuantity] = useState(1);
     const [searchParams,setSearchParams] = useSearchParams();
+
+    const [wishlistError, setWishlistError] = useState(null);
+    const [wishlistLoading, setWishlistLoading] = useState(false);
 
     //Home page
 
@@ -104,7 +116,6 @@ export const ProductContextProvider = ({ children }) => {
         setSelectedPrice("")
         setSelectedPriceForFilter(0);
         setSearchParams({})
-        navigate("/products")
     }
 
     const handlerPriceChage = (event) => {
@@ -113,50 +124,105 @@ export const ProductContextProvider = ({ children }) => {
     }
 
     const handleAddToCart = (productId) => {
-        console.log("Add to cart:", productId);
+        // console.log("Add to cart:", productId);
         // Logic imcomplete
     };
 
-    const handleAddToWishlist = async (productId) => {
-        try {
-            if (wishlistItems.includes(productId)) {
-            const response = await fetch(
-                `https://glowora-app-backend-api.vercel.app/api/wishlist/product/${productId}`,
-                { method: "DELETE" }
-            );
-
-            if (!response.ok) {
-                throw new Error(`Failed to remove item: ${response.status}`);
-            }
-
-            setWishlistItems(prev => prev.filter(id => id !== productId));
+   const handleAddToWishlist = async (productId) => {
+  try {
+    setWishlistLoading(true);
     
-        } else {
-            const response = await fetch(
-                `https://glowora-app-backend-api.vercel.app/api/wishlist/products`,
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({ product: productId })
-                }
-            );
+    const existingWishlistItem = wishlistItems.some(item => item.product?._id === productId);
 
-            if (!response.ok) {
-                throw new Error(`Failed to add item: ${response.status}`);
-            }
+    if (existingWishlistItem) {
 
-            const newProductData = await response.json();
+      const response = await fetch(
+        `https://glowora-app-backend-api.vercel.app/api/wishlist/product/${existingWishlistItem._id}`,
+        { method: "DELETE" }
+      );
 
-            setWishlistItems(prev => [...prev, productId]);
+      if (!response.ok) throw new Error(`Failed to remove item: ${response.status}`);
+
+      setWishlistItems(prev => prev.filter(item => item._id !== existingWishlistItem._id));
+    } else {
+
+      // ADD by productId
+
+      const response = await fetch(
+        `https://glowora-app-backend-api.vercel.app/api/wishlist/products`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ product: productId })
         }
+      );
 
-        } catch (error) {
-            console.log("Error while adding wishlist",error);
-        }
-      };
+      if (!response.ok) throw new Error(`Failed to add item: ${response.status}`);
 
+     const newItem = await response.json();
+      setWishlistItems(prev => [...prev, newItem.data]);
+    }
+
+  } catch (error) {
+    console.log("Error while adding/removing wishlist", error);
+  } finally{
+    setWishlistLoading(false)
+  }
+};
+
+      // Fetch Wishlist Products
+        useEffect(() => {
+             const fetchWishlistProductDetails = async () => {
+                  setWishlistLoading(true);
+      
+                  try {
+                      const response = await fetch(
+                          `https://glowora-app-backend-api.vercel.app/api/wishlist/products`
+                      );
+      
+                      if (!response.ok) {
+                          throw new Error(`HTTP error! status: ${response.status}`);
+                      }
+      
+                      const wishlistProductDetailsData = await response.json();
+      
+                     if(wishlistProductDetailsData){
+                      setWishlistItems(wishlistProductDetailsData?.data);
+                      setWishlistError(null);
+                     }
+                  } catch (error) {
+                      console.error("Error occurred while fetching the data: ", error);
+                      setWishlistError(error.message);
+                  } finally {
+                      setWishlistLoading(false);
+                  }
+              };
+      
+             fetchWishlistProductDetails();
+          }, []);
+      
+      
+          // Remove Item from Wishlist
+          const handleRemoveFromWishlist = async (productId) => {
+              try {
+                  const response = await fetch(
+                      `https://glowora-app-backend-api.vercel.app/api/wishlist/product/${productId}`,
+                      { method: "DELETE" }
+                  );
+      
+                  if (!response.ok) {
+                      throw new Error(`Failed to remove item: ${response.status}`);
+                  }
+      
+                  setWishlistItems((prev) =>
+                      prev.filter((item) => item._id !== productId)
+                  );
+              } catch (error) {
+                  console.error("Error removing Product from wishlist:", error);
+              }
+          };
+
+          
     const navigate = useNavigate();
 
     const renderRatingStars = (rating) => {
@@ -187,10 +253,8 @@ export const ProductContextProvider = ({ children }) => {
             if (categoryExists && !selectedCategories.includes(categoryParam)) {
                 const mockEvent = {
                     target: { name: "categories", value: categoryParam, checked: true }
-                };        
-                handleCategoryChange(mockEvent);
-
-                // learn logic
+                };   
+                handleCategoryChange(mockEvent);     
             }
         }
     }, [categoryParam, categories, selectedCategories, handleCategoryChange]);
@@ -249,7 +313,7 @@ export const ProductContextProvider = ({ children }) => {
         handlerPriceFilter,navigate,productDetailsData,productDetailsloading,
         ProductDetailsError,handleQuantityChange,handleBuyNow,quantity,setQuantity,
         filterFeaturedProducts, carouselImages, searchParams, showFilters, setShowFilters,
-       
+        handleRemoveFromWishlist, wishlistLoading, wishlistError
     }
     }>
       {children}

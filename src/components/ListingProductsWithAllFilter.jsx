@@ -12,7 +12,7 @@ export default function ListingProductswithAllFilter() {
         handleAddToCart, handleAddToWishlist, handleCategoryChange, handlerClearAll,
         handlerPriceChage, handlerRatingChange, displayedProducts, renderRatingStars,
         selectedRating, selectedPrice, selectedCategories, wishlistItems, selectedPriceForFilter,
-        handlerPriceFilter, navigate, showFilters, setShowFilters, 
+        handlerPriceFilter, navigate, showFilters, setShowFilters, handleRemoveFromWishlist
      } = useProductContext();
 
    
@@ -252,7 +252,8 @@ export default function ListingProductswithAllFilter() {
                                                     />
 
                                                     <button
-                                                        onClick={() => handleAddToWishlist(product._id)}
+                                                        onClick={() => handleAddToWishlist(product?._id)}                                                        
+                                                        onDoubleClick={()=>handleRemoveFromWishlist(product?._id)}
                                                         className="btn btn-light position-absolute top-0 end-0 m-2 rounded-circle"
                                                         style={{
                                                             height: "40px",
@@ -261,9 +262,9 @@ export default function ListingProductswithAllFilter() {
                                                             alignItems: 'center',
                                                             justifyContent: 'center'
                                                         }}
-                                                        aria-label={wishlistItems.includes(product._id) ? "Remove from wishlist" : "Add to wishlist"}
+                                                        aria-label={wishlistItems.some(item => item?.product?._id === product?._id) ? "Remove from wishlist" : "Add to wishlist"}
                                                     >
-                                                        {wishlistItems.includes(product._id) ?
+                                                        {wishlistItems.some(item => item?.product?._id === product?._id) ?
                                                             <FavoriteIcon className="text-danger" /> :
                                                             <FavoriteBorderIcon />
                                                         }

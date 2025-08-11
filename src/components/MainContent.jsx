@@ -232,6 +232,7 @@ export default function MainContent() {
 
                        <button
                           onClick={() => handleAddToWishlist(product._id)}
+                          onDoubleClick={()=>handleRemoveFromWishlist(product?._id)}
                           className="btn btn-light position-absolute top-0 end-0 m-2 rounded-circle"
                           style={{
                               height: "40px",
@@ -240,8 +241,8 @@ export default function MainContent() {
                               alignItems: 'center',
                               justifyContent: 'center'
                                   }}
-                            aria-label={wishlistItems.includes(product._id) ? "Remove from wishlist" : "Add to wishlist"}
-                           >{wishlistItems.includes(product._id) ?
+                            aria-label={wishlistItems.some(item => item?.product?._id === product?._id) ? "Remove from wishlist" : "Add to wishlist"}
+                           >{wishlistItems.some(item => item?.product?._id === product?._id) ?
                                <FavoriteIcon className="text-danger" /> :
                                <FavoriteBorderIcon />
                               }
