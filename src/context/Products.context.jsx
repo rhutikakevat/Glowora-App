@@ -6,6 +6,7 @@ import { useState,useEffect } from "react";
 import { useNavigate } from "react-router";
 import { useParams } from "react-router"
 import { useSearchParams } from "react-router";
+import { toast } from "react-toastify";
 
 const ProductContext = createContext();
 
@@ -128,26 +129,27 @@ export const ProductContextProvider = ({ children }) => {
         // Logic imcomplete
     };
 
-   const handleAddToWishlist = async (productId) => {
+const handleAddToWishlist = async (productId) => {
   try {
     setWishlistLoading(true);
     
-    const existingWishlistItem = wishlistItems.some(item => item.product?._id === productId);
+    // Check if product is already in wishlist
+    const existingItem = wishlistItems.find(item => item.product?._id === productId);
 
-    if (existingWishlistItem) {
-
+    if (existingItem) {
+      // Remove from wishlist
       const response = await fetch(
-        `https://glowora-app-backend-api.vercel.app/api/wishlist/product/${existingWishlistItem._id}`,
+        `https://glowora-app-backend-api.vercel.app/api/wishlist/product/${existingItem._id}`,
         { method: "DELETE" }
       );
 
       if (!response.ok) throw new Error(`Failed to remove item: ${response.status}`);
 
-      setWishlistItems(prev => prev.filter(item => item._id !== existingWishlistItem._id));
+      setWishlistItems(prev => prev.filter(item => item._id !== existingItem._id));
+
+      toast.success("Product removed from wishlist!");
     } else {
-
-      // ADD by productId
-
+      // Add to wishlist
       const response = await fetch(
         `https://glowora-app-backend-api.vercel.app/api/wishlist/products`,
         {
@@ -159,14 +161,16 @@ export const ProductContextProvider = ({ children }) => {
 
       if (!response.ok) throw new Error(`Failed to add item: ${response.status}`);
 
-     const newItem = await response.json();
+      const newItem = await response.json();
       setWishlistItems(prev => [...prev, newItem.data]);
-    }
 
+      toast.success("Product added to wishlist ❤️");
+    }
   } catch (error) {
     console.log("Error while adding/removing wishlist", error);
-  } finally{
-    setWishlistLoading(false)
+    toast.error(error.message || "Failed to update wishlist!");
+  } finally {
+    setWishlistLoading(false);
   }
 };
 
@@ -187,7 +191,7 @@ export const ProductContextProvider = ({ children }) => {
                       const wishlistProductDetailsData = await response.json();
       
                      if(wishlistProductDetailsData){
-                      setWishlistItems(wishlistProductDetailsData?.data);
+                      setWishlistItems(wishlistProductDetailsData?.data || []);
                       setWishlistError(null);
                      }
                   } catch (error) {

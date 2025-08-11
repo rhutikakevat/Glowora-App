@@ -4,8 +4,8 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { FiFilter } from "react-icons/fi";
 import 'bootstrap-icons/font/bootstrap-icons.css';
-import Footer from "./Footer";
-import Header from "./Header";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function ListingProductswithAllFilter() {    
     const { categories, productsLoading, productsError,
@@ -13,7 +13,8 @@ export default function ListingProductswithAllFilter() {
         handlerPriceChage, handlerRatingChange, displayedProducts, renderRatingStars,
         selectedRating, selectedPrice, selectedCategories, wishlistItems, selectedPriceForFilter,
         handlerPriceFilter, navigate, showFilters, setShowFilters, handleRemoveFromWishlist
-     } = useProductContext();
+    
+    } = useProductContext();
 
    
     const renderFilters = () => (
@@ -181,8 +182,20 @@ export default function ListingProductswithAllFilter() {
 
     return (
         <>
-        <Header/>
         <main className="container py-4">
+            <ToastContainer 
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+    />
+
             <div className="py-2 mb-3">
                 <h2 className="text-center text-md-start" style={{ color: '#f11c58ff' }}>
                 Cosmetics & Beauty Products</h2>
@@ -264,9 +277,9 @@ export default function ListingProductswithAllFilter() {
                                                         }}
                                                         aria-label={wishlistItems.some(item => item?.product?._id === product?._id) ? "Remove from wishlist" : "Add to wishlist"}
                                                     >
-                                                        {wishlistItems.some(item => item?.product?._id === product?._id) ?
-                                                            <FavoriteIcon className="text-danger" /> :
-                                                            <FavoriteBorderIcon />
+                                                       {wishlistItems.some(item => item.product?._id === product._id) ?
+                                                        <FavoriteIcon className="text-danger" /> :
+                                                        <FavoriteBorderIcon />
                                                         }
                                                     </button>
                                                 </div>
@@ -333,8 +346,6 @@ export default function ListingProductswithAllFilter() {
             
             </div>
         </main>
-
-        <Footer/>
         </>
     );
 }

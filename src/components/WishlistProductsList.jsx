@@ -1,5 +1,3 @@
-import Header from "./Header";
-import Footer from "./Footer";
 import { useProductContext } from "../context/Products.context";
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -36,8 +34,7 @@ export default function WishlistProductsList() {
 
     return (
         <>
-            <Header />
-            <main className="container py-4">                
+            <main className="container py-4">  
                         <div className="col-lg-9 col-md-8 mt-4">
                             <h3 className="mb-4 py-2 border-bottom">All Wishlist Products {" "}({wishlistItems.length})</h3>
                             {wishlistItems.length > 0 ? (
@@ -72,7 +69,7 @@ export default function WishlistProductsList() {
                                                             alignItems: 'center',
                                                             justifyContent: 'center'  
                                                         }}
-                                                        aria-label={wishlistItems.some((item)=>item?.product?._id === product?.product?._id) ? "Remove from wishlist" : "Add to wishlist"}
+                                                        aria-label={isInWishlist(product?.product?._id) ? "Remove from wishlist" : "Add to wishlist"}
                                                     >
                                                         {wishlistItems.some(item => item?.product?._id === product?.product?._id) ?
                                                             <FavoriteIcon className="text-danger" /> :
@@ -95,7 +92,7 @@ export default function WishlistProductsList() {
                                                         }}  
                                                         className="card-title"
                                                     >
-                                                        {product.product?.name}
+                                                        {product?.product?.name}
                                                     </h5>
                                                     <div className="mb-2" style={{color:"#f11c58ff"}}>
                                                         <span className="fw-bold">MRP: ₹{product?.product?.price}</span>
@@ -146,7 +143,7 @@ export default function WishlistProductsList() {
                             )}
                         </div>
             </main>
-            <Footer />
+           
         </>
     );
 }
