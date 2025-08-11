@@ -69,7 +69,7 @@ export default function WishlistProductsList() {
                                                             alignItems: 'center',
                                                             justifyContent: 'center'  
                                                         }}
-                                                        aria-label={isInWishlist(product?.product?._id) ? "Remove from wishlist" : "Add to wishlist"}
+                                                        aria-label={wishlistItems.some(item => item?.product?._id === product?.product?._id) ? "Remove from wishlist" : "Add to wishlist"}
                                                     >
                                                         {wishlistItems.some(item => item?.product?._id === product?.product?._id) ?
                                                             <FavoriteIcon className="text-danger" /> :
