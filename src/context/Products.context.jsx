@@ -1,22 +1,25 @@
-import { createContext, useContext } from "react";
-import useFetch from "../useFetch";
+import { createContext, useContext,useState,useEffect } from "react";
+import useFetch from "../hooks/useFetch";
 import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
-import { useState,useEffect } from "react";
-import { useNavigate } from "react-router";
-import { useParams } from "react-router"
-import { useSearchParams } from "react-router";
-import { toast } from "react-toastify";
+import { useNavigate,useSearchParams,useParams } from "react-router";
+import { useCategoriesContext } from "./Categories.context";
 
 const ProductContext = createContext();
 
 export const useProductContext = () => {
-  return useContext(ProductContext);
+    const context = useContext(ProductContext);
+
+    if (!context) {
+    throw new Error('useProductsContext must be used within a ProductsContextProvider');
+    }
+    return context;
 };
 
 export const ProductContextProvider = ({ children }) => {
   const productApi = "https://glowora-app-backend-api.vercel.app/api/products";
-  const categoryApi = "https://glowora-app-backend-api.vercel.app/api/categories";
+
+  const {selectedCategories,setSelectedCategories} = useCategoriesContext();
   
   const { 
     data: products, 
@@ -24,41 +27,26 @@ export const ProductContextProvider = ({ children }) => {
     error: productsError 
   } = useFetch(productApi);
 
-  const { 
-    data: categories, 
-    loading: categoriesLoading, 
-    error: categoriesError 
-  } = useFetch(categoryApi);
 
-   
-  const [wishlistItems, setWishlistItems] = useState(() => {
-    const savedWishlist = localStorage.getItem("wishlistItems");
-    return savedWishlist ? JSON.parse(savedWishlist) : [];
-    });
-
-    useEffect(() => {
-    localStorage.setItem("wishlistItems", JSON.stringify(wishlistItems));
-    }, [wishlistItems]);
-
-
-    const [selectedCategories, setSelectedCategories] = useState([]);
+  
     const [selectedRating, setSelectedRating] = useState(0);
     const [selectedPrice, setSelectedPrice] = useState("");
-    const [selectedPriceForFilter, setSelectedPriceForFilter] = useState(0);  
+    const [selectedPriceForFilter, setSelectedPriceForFilter] = useState(0);
+    const [showFilters, setShowFilters] = useState(false);   
 
 
     const { productId } = useParams();
+
+    const [searchParams,setSearchParams] = useSearchParams();
 
     const [productDetailsData, setProductDetailsData] = useState(null);
     const [productDetailsloading, setProductDetailsLoading] = useState(true);
     const [ProductDetailsError, setProductDetailsError] = useState(null);
     const [quantity, setQuantity] = useState(1);
-    const [searchParams,setSearchParams] = useSearchParams();
+   
+    const navigate = useNavigate();
 
-    const [wishlistError, setWishlistError] = useState(null);
-    const [wishlistLoading, setWishlistLoading] = useState(false);
-
-    //Home page
+    //Use in Home page 
 
     const filterFeaturedProducts = products?.data?.products.filter((product) => product.isFeatured) || [];
 
@@ -69,9 +57,7 @@ export const ProductContextProvider = ({ children }) => {
     ];
 
 
-   // Listing Page  
-    const [showFilters, setShowFilters] = useState(false);  
-    const categoryParam = searchParams.get("category");
+   //Use in Listing Page     
           
     const displayedProducts = (products?.data?.products || [])
         .filter((product) => {
@@ -93,16 +79,7 @@ export const ProductContextProvider = ({ children }) => {
             return 0;
         });
 
-    const handleCategoryChange = (event) => {
-        const { value, checked } = event.target;
-
-        if (checked) {
-            setSelectedCategories(prev => [...prev, value]);
-        } else {
-            setSelectedCategories(prev => prev.filter(category => category !== value));
-        }
-    };
-
+    
     const handlerRatingChange = (event, newValueOfRating) => {
         setSelectedRating(newValueOfRating);
     }
@@ -121,113 +98,10 @@ export const ProductContextProvider = ({ children }) => {
 
     const handlerPriceChage = (event) => {
         const { value } = event.target;
+
         setSelectedPrice(value);
-    }
-
-    const handleAddToCart = (productId) => {
-        // console.log("Add to cart:", productId);
-        // Logic imcomplete
-    };
-
-const handleAddToWishlist = async (productId) => {
-  try {
-    setWishlistLoading(true);
-    
-    // Check if product is already in wishlist
-    const existingItem = wishlistItems.find(item => item.product?._id === productId);
-
-    if (existingItem) {
-      // Remove from wishlist
-      const response = await fetch(
-        `https://glowora-app-backend-api.vercel.app/api/wishlist/product/${existingItem._id}`,
-        { method: "DELETE" }
-      );
-
-      if (!response.ok) throw new Error(`Failed to remove item: ${response.status}`);
-
-      setWishlistItems(prev => prev.filter(item => item._id !== existingItem._id));
-
-      toast.success("Product removed from wishlist!");
-    } else {
-      // Add to wishlist
-      const response = await fetch(
-        `https://glowora-app-backend-api.vercel.app/api/wishlist/products`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ product: productId })
-        }
-      );
-
-      if (!response.ok) throw new Error(`Failed to add item: ${response.status}`);
-
-      const newItem = await response.json();
-      setWishlistItems(prev => [...prev, newItem.data]);
-
-      toast.success("Product added to wishlist ❤️");
-    }
-  } catch (error) {
-    console.log("Error while adding/removing wishlist", error);
-    toast.error(error.message || "Failed to update wishlist!");
-  } finally {
-    setWishlistLoading(false);
-  }
-};
-
-      // Fetch Wishlist Products
-        useEffect(() => {
-             const fetchWishlistProductDetails = async () => {
-                  setWishlistLoading(true);
-      
-                  try {
-                      const response = await fetch(
-                          `https://glowora-app-backend-api.vercel.app/api/wishlist/products`
-                      );
-      
-                      if (!response.ok) {
-                          throw new Error(`HTTP error! status: ${response.status}`);
-                      }
-      
-                      const wishlistProductDetailsData = await response.json();
-      
-                     if(wishlistProductDetailsData){
-                      setWishlistItems(wishlistProductDetailsData?.data || []);
-                      setWishlistError(null);
-                     }
-                  } catch (error) {
-                      console.error("Error occurred while fetching the data: ", error);
-                      setWishlistError(error.message);
-                  } finally {
-                      setWishlistLoading(false);
-                  }
-              };
-      
-             fetchWishlistProductDetails();
-          }, []);
-      
-      
-          // Remove Item from Wishlist
-          const handleRemoveFromWishlist = async (productId) => {
-              try {
-                  const response = await fetch(
-                      `https://glowora-app-backend-api.vercel.app/api/wishlist/product/${productId}`,
-                      { method: "DELETE" }
-                  );
-      
-                  if (!response.ok) {
-                      throw new Error(`Failed to remove item: ${response.status}`);
-                  }
-      
-                  setWishlistItems((prev) =>
-                      prev.filter((item) => item._id !== productId)
-                  );
-              } catch (error) {
-                  console.error("Error removing Product from wishlist:", error);
-              }
-          };
-
-          
-    const navigate = useNavigate();
+    }        
+   
 
     const renderRatingStars = (rating) => {
         const stars = [];
@@ -242,29 +116,20 @@ const handleAddToWishlist = async (productId) => {
             } else {
                 stars.push(<StarBorderIcon key={i} className="text-warning" style={{ fontSize: '18px' }} />);
             }
-
-            // logic learn
         }
         return stars;
+    };   
+
+     const handleAddToCart = (productId) => {
+        // Logic implement
     };
-
-    useEffect(() => {
-        if (categoryParam && categories?.data?.categories) {
-            const categoryExists = categories.data.categories.filter(
-                (categoryForFilter) => categoryForFilter.name === categoryParam
-            );          
-
-            if (categoryExists && !selectedCategories.includes(categoryParam)) {
-                const mockEvent = {
-                    target: { name: "categories", value: categoryParam, checked: true }
-                };   
-                handleCategoryChange(mockEvent);     
-            }
-        }
-    }, [categoryParam, categories, selectedCategories, handleCategoryChange]);
+    
+    const handleAddToWishlist=()=>{
+        // Logic implement
+    }
 
 
-    // Product Details Page 
+    //Use in Product Details Page 
 
     useEffect(() => {
         const fetchProductDetails = async () => {
@@ -302,7 +167,7 @@ const handleAddToWishlist = async (productId) => {
     }
 
     const handleBuyNow = () => {
-        // write logic
+        // Logic inplement
     }  
 
 
@@ -310,14 +175,14 @@ const handleAddToWishlist = async (productId) => {
     <ProductContext.Provider value={
       {
         products, productsLoading, productsError,
-        categories,categoriesError,categoriesLoading,
-        handleAddToCart,handleAddToWishlist,handleCategoryChange,handlerClearAll,
-        handlerPriceChage,handlerRatingChange,displayedProducts,renderRatingStars,
-        selectedRating,selectedPrice,selectedCategories,wishlistItems,selectedPriceForFilter,
-        handlerPriceFilter,navigate,productDetailsData,productDetailsloading,
-        ProductDetailsError,handleQuantityChange,handleBuyNow,quantity,setQuantity,
-        filterFeaturedProducts, carouselImages, searchParams, showFilters, setShowFilters,
-        handleRemoveFromWishlist, wishlistLoading, wishlistError
+        handleAddToCart,handleAddToWishlist,
+        handlerClearAll, handlerPriceChage,handlerRatingChange,displayedProducts,
+        renderRatingStars, selectedRating,selectedPrice,selectedPriceForFilter, 
+        handlerPriceFilter,navigate,productDetailsData,
+        productDetailsloading, ProductDetailsError, handleQuantityChange,
+        handleBuyNow, quantity,setQuantity,filterFeaturedProducts, 
+        carouselImages, searchParams, 
+        showFilters, setShowFilters,     
     }
     }>
       {children}

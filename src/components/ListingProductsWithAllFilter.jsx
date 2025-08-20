@@ -1,20 +1,20 @@
 import { useProductContext } from "../context/Products.context";
 import Slider from "@mui/material/Slider";
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import FavoriteIcon from '@mui/icons-material/Favorite';
 import { FiFilter } from "react-icons/fi";
 import 'bootstrap-icons/font/bootstrap-icons.css';
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { useCategoriesContext } from "../context/Categories.context";
 
 export default function ListingProductswithAllFilter() {    
-    const { categories, productsLoading, productsError,
-        handleAddToCart, handleAddToWishlist, handleCategoryChange, handlerClearAll,
-        handlerPriceChage, handlerRatingChange, displayedProducts, renderRatingStars,
-        selectedRating, selectedPrice, selectedCategories, wishlistItems, selectedPriceForFilter,
-        handlerPriceFilter, navigate, showFilters, setShowFilters, handleRemoveFromWishlist
+    const { productsLoading, productsError,
+        handleAddToCart, handlerClearAll,
+        handlerPriceChage, handlerRatingChange, displayedProducts, 
+        renderRatingStars, selectedRating, selectedPrice, 
+        selectedPriceForFilter,handlerPriceFilter, 
+        navigate, showFilters, setShowFilters, 
     
     } = useProductContext();
+
+    const { selectedCategories, categories, handleCategoryChange } = useCategoriesContext();
 
    
     const renderFilters = () => (
@@ -183,19 +183,6 @@ export default function ListingProductswithAllFilter() {
     return (
         <>
         <main className="container py-4">
-            <ToastContainer 
-        position="top-right"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-    />
-
             <div className="py-2 mb-3">
                 <h2 className="text-center text-md-start" style={{ color: '#f11c58ff' }}>
                 Cosmetics & Beauty Products</h2>
@@ -264,24 +251,7 @@ export default function ListingProductswithAllFilter() {
                                                         }}
                                                     />
 
-                                                    <button
-                                                        onClick={() => handleAddToWishlist(product?._id)}                                                        
-                                                        onDoubleClick={()=>handleRemoveFromWishlist(product?._id)}
-                                                        className="btn btn-light position-absolute top-0 end-0 m-2 rounded-circle"
-                                                        style={{
-                                                            height: "40px",
-                                                            width: "40px",
-                                                            display: 'flex',
-                                                            alignItems: 'center',
-                                                            justifyContent: 'center'
-                                                        }}
-                                                        aria-label={wishlistItems.some(item => item?.product?._id === product?._id) ? "Remove from wishlist" : "Add to wishlist"}
-                                                    >
-                                                       {wishlistItems.some(item => item.product?._id === product._id) ?
-                                                        <FavoriteIcon className="text-danger" /> :
-                                                        <FavoriteBorderIcon />
-                                                        }
-                                                    </button>
+                                                    
                                                 </div>
 
                                                 <div className="card-body d-flex flex-column">

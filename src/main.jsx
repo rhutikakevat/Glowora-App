@@ -5,7 +5,8 @@ import './index.css'
 import App from './App.jsx'
 import ProductsListing from './pages/ProductsListing.jsx'
 import ProductDetail from './pages/ProductDetail.jsx'
-import WishlistProducts from './pages/Wishlist.jsx'
+import WishlistProducts from './pages/WishlistProducts.jsx'
+
 
 const routes = createBrowserRouter([
   {
@@ -21,7 +22,7 @@ const routes = createBrowserRouter([
     element:<ProductDetail/>
   },
   {
-    path:"/wishlist/products",
+    path:"/wishlist",
     element:<WishlistProducts/>
   }
 ])

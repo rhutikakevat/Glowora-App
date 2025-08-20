@@ -6,20 +6,23 @@ import AuthenticLogo from "/Authentic.png";
 import CustomersLogo from "/Customers.png";
 import Header from "./Header";
 import Footer from "./Footer";
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import FavoriteIcon from '@mui/icons-material/Favorite';
+import { useCategoriesContext } from "../context/Categories.context";
 
 export default function MainContent() {
   const {
+    productsLoading,
+    productsError,
+    renderRatingStars,
+    filterFeaturedProducts, 
+    navigate,
+    carouselImages,
+  } = useProductContext(); 
+
+  const { 
     categories,
     categoriesLoading,
     categoriesError,
-    productsLoading,
-    productsError,
-    renderRatingStars,handleAddToWishlist,
-    filterFeaturedProducts, navigate,
-    carouselImages,wishlistItems
-  } = useProductContext(); 
+  } = useCategoriesContext();
   
   if (categoriesLoading || productsLoading){
     return (
@@ -230,23 +233,7 @@ export default function MainContent() {
                         style={{ objectFit: 'contain' }}
                       />
 
-                       <button
-                          onClick={() => handleAddToWishlist(product._id)}
-                          onDoubleClick={()=>handleRemoveFromWishlist(product?._id)}
-                          className="btn btn-light position-absolute top-0 end-0 m-2 rounded-circle"
-                          style={{
-                              height: "40px",
-                              width: "40px",
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'center'
-                                  }}
-                            aria-label={wishlistItems.some(item => item?.product?._id === product?._id) ? "Remove from wishlist" : "Add to wishlist"}
-                           >{wishlistItems.some(item => item?.product?._id === product?._id) ?
-                               <FavoriteIcon className="text-danger" /> :
-                               <FavoriteBorderIcon />
-                              }
-                        </button>
+                       
                                                         
                     </div>
                     <div className="card-body p-2 text-center">
@@ -264,7 +251,7 @@ export default function MainContent() {
                         {product.stock ? "In Stock" : "Out of Stock"}
                       </div>                      
                       <div className="fw-bold fs-5 mt-2 mb-2" style={{ color: '#f11c58ff', fontSize: '0.95rem' }}>
-                        ₹{product.price}
+                        MRP: ₹{product.price}
                       </div>
                       <div className="mb-3">
                         {renderRatingStars(product.ratings)}{" "}
