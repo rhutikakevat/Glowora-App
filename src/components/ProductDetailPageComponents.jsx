@@ -62,7 +62,7 @@ export default function ProductDetailPageComponents() {
                                         >
                                             <i className={`${isWishlisted ? 'fas' : 'far'} fa-heart`}
                                                 style={{
-                                                   color: isWishlisted ? '#f11c58ff' : '#6b6b6bff',
+                                                   color: isWishlisted ? '#f11c58ff' : '#525050ff',
                                                    fontSize: '1.22rem'
                                                }}
                                             >                                                

@@ -182,7 +182,7 @@ export default function ListingProductswithAllFilter() {
 
     return (
         <>
-        <main className="container py-4">
+        <main className="container py-4 mb-5">
             <div className="py-2 mb-3">
                 <h2 className="text-center text-md-start" style={{ color: '#f11c58ff' }}>
                 Cosmetics & Beauty Products</h2>
