@@ -4,6 +4,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { ProductContextProvider } from "../context/Products.context";
 import ProductDetailPageComponents from "../components/ProductDetailPageComponents";
 import { CategoriesContextProvider } from "../context/Categories.context";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function ProductDetail() {
     return (
@@ -16,6 +18,8 @@ export default function ProductDetail() {
                     <ProductDetailPageComponents />              
 
                     <Footer />
+
+                    <ToastContainer position="top-right" autoClose={3000}/>
 
                 </ProductContextProvider>
             </CategoriesContextProvider>

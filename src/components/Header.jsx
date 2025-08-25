@@ -29,12 +29,12 @@ export default function Header() {
                             <input
                                 type="text"
                                 className="form-control ms-5"
-                                placeholder="Search products..."
+                                placeholder= "Search products..."
                                 aria-label="Search products"
                                 style={{borderColor:"#b40c3cff", fontFamily:"cursive"}}
                             />
                             <button className="btn btn-outline-danger" type="button">
-                                <FaSearch />
+                               <FaSearch />
                             </button>
                         </div>
                     </div>
