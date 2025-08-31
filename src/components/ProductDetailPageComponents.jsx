@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
 import { useProductContext } from "../context/Products.context";
-import { toast } from "react-toastify";
+import { useWishlistsContext } from "../context/Wishlists.Context";
 
 export default function ProductDetailPageComponents() {
     const { renderRatingStars, handleAddToCart,
@@ -9,108 +8,9 @@ export default function ProductDetailPageComponents() {
         setQuantity
     } = useProductContext();
 
-    const [isWishlisted, setIsWishlisted] = useState(false);
-    const [wishlistLoading, setWishlistLoading] = useState(false);
-    const [wishlistError, setWishlistError] = useState(null);
-    const [wishlistCount, setWishlistCount] = useState(0);
-    const [wishlist, setWishlist] = useState([]);
-    const [hydrated, setHydrated] = useState(false);
-
-    useEffect(()=>{
-        if(!productDetailsData?.data?.product?._id) return;
-
-        const storedWishlistProduct = JSON.parse(localStorage.getItem('wishlist')) || [];
-        const productId = String(productDetailsData?.data?.product?._id)
-
-        setWishlist(storedWishlistProduct);
-        setWishlistCount(storedWishlistProduct.length);
-
-        if(productId){
-            setIsWishlisted(storedWishlistProduct.includes(productId))
-        }
-
-        setHydrated(true)
-    }, [productDetailsData?.data?.product?._id]);
-
-    useEffect(()=>{
-        if(hydrated){
-            localStorage.setItem("wishlist", JSON.stringify(wishlist))
-        }
-    }, [wishlist,hydrated])
-
-    const addToWishlist = async (productId) => {
-        try {
-            setWishlistLoading(true)
-
-            const response = await fetch(`https://glowora-app-backend-api.vercel.app/api/wishlist/products`,{
-            method: "POST",
-            headers: { "Content-Type" : "application/json"},
-            body: JSON.stringify({ product : productId }),
-        })
-
-        if(!response.ok){
-            throw new Error("Failed to add the data")
-        }else{
-            const postedData = await response.json();
-
-            if(postedData){
-                toast.success("Product added to Wishlist ❤️")
-
-                setIsWishlisted(true)
-                setWishlistCount(preValue => preValue + 1)
-                setWishlist((preValue)=>[...preValue,productId])
-            }
-        }
-        } catch (error) {
-            console.log("Error while posting the data: ",error);
-            toast.error("Error while adding to wishlist")
-
-            setWishlistError(error.message)
-        } finally{
-            setWishlistLoading(false)
-        }
-    }
-
-    const removeFromWishlist = async (productId) => {
-        try {
-            const response = await fetch(`https://glowora-app-backend-api.vercel.app/api/wishlist/product/${productId}`,{
-                method: "DELETE",
-                mode:"cors"
-            })
-
-            if(!response.ok){
-                throw new Error("Failed to remove the data")
-            }else{
-                const deletedData = await response.json();
-
-                if(deletedData){
-                    toast.success("Product removed from Wishlist 🗑️")
-
-                    setIsWishlisted(false)
-                    setWishlistCount(preValue => Math.max(preValue - 1, 0))
-                    setWishlist((preValue)=>preValue.filter((id)=>id !== productId))
-                }
-            }
-        } catch (error) {
-            console.log("Error while removing from wishlist: ",error);
-            toast.error("Error while removing from wishlist")
-            setWishlistError(error.message);
-        }finally{
-            setWishlistLoading(false);
-        }
-    }
-        
-    const wishlistHandler = () => {
-        if (!productDetailsData) return;
-        
-        const productId = productDetailsData.data.product._id;
-
-        if (isWishlisted) {
-        removeFromWishlist(productId);
-        } else {
-        addToWishlist(productId);
-        }
-    };
+    const { wishlistLoading,isWishlisted, wishlistError,
+           wishlistHandler
+     } = useWishlistsContext();
         
     return (
         <>
@@ -154,18 +54,33 @@ export default function ProductDetailPageComponents() {
                                                     justifyContent:"center"
                                                 }}
 
+                                                disabled={wishlistLoading}
+                                                
                                                 onClick={()=> wishlistHandler(productDetailsData?.data?.product?._id)}
 
-                                                aria-label={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}
+                                                aria-label={isWishlisted(productDetailsData?.data?.product?._id) ? "Remove from wishlist" : "Add to wishlist"}
                                         >
-                                            <i className={`${isWishlisted ? 'fas' : 'far'} fa-heart`}
+                                            {wishlistLoading ? (
+                                                <div className="spinner-border spinner-border-sm text-danger"
+                                                     role="status"
+                                                >    
+                                                </div>
+                                            ) : (
+                                            <i className={`${isWishlisted(productDetailsData?.data?.product?._id) ? 'fas' : 'far'} fa-heart`}
                                                 style={{
-                                                   color: isWishlisted ? '#f11c58ff' : '#525050ff',
+                                                   color: isWishlisted(productDetailsData?.data?.product?._id) ? '#f11c58ff' : '#525050ff',
                                                    fontSize: '1.22rem'
                                                }}
                                             >                                                
                                             </i>
+                                            )}                                            
                                         </button>
+
+                                        {wishlistError && (
+                                            <div className="alert alert-danger mt-2">
+                                                {wishlistError}
+                                            </div>
+                                        )}
 
                                         {productDetailsData?.data?.product?.isFeatured && (
                                         <span className="badge bg-success mb-2 py-2 position-absolute"
@@ -270,7 +185,7 @@ export default function ProductDetailPageComponents() {
                                         <h3 className="fw-bold" style={{ color: '#f11c58ff' }}>
                                             Reviews: ({productDetailsData?.data?.product?.reviews.length})
                                         </h3>
-                                        <ul className="list-group mt-3" style={{width:"13.5cm"}}>
+                                        <ul className="list-group mt-3" style={{width:"9cm"}}>
                                             {productDetailsData?.data?.product?.reviews.map((review, index) => (
                                                 <li 
                                                     key={index} 

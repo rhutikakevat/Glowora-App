@@ -2,11 +2,14 @@ import logo from "/logo.jpg";
 import { NavLink } from "react-router-dom";
 import { FaSearch, FaHeart, FaShoppingCart, FaUser } from "react-icons/fa";
 import { GiCardboardBoxClosed } from "react-icons/gi";
+import { useWishlistsContext } from "../context/Wishlists.Context";
 
 export default function Header() {
-  const wishlistCount = 3;
+  const { wishlistCount } = useWishlistsContext()
   const cartCount = 5;
   // Change after have original count
+
+  console.log(wishlistCount)
 
     return (
         <header>
@@ -89,7 +92,7 @@ export default function Header() {
                                 </li>
                                 <li className="nav-item">
                                     <NavLink to="/wishlist" className="nav-link position-relative ms-3"><FaHeart size={18}/> Wishlist
-                                      {wishlistCount >0 && (
+                                      {wishlistCount > 0 && (
                                           <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
                                               
                                           >

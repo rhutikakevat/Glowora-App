@@ -1,16 +1,32 @@
-import Header from "../components/Header";
+import Header from "../components/Header"
 import Footer from "../components/Footer"
+import "react-toastify/dist/ReactToastify.css";
+import { ProductContextProvider } from "../context/Products.context";
+import WishlistsProductsComponents from "../components/WishlistsProductsComponents"
+import { CategoriesContextProvider } from "../context/Categories.context";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { WishlistsContextProvider } from "../context/Wishlists.Context";
 
-export default function WishlistProducts(){
+export default function ProductDetail() {
     return (
-        <>
-        <Header/>
+        <>          
+            <CategoriesContextProvider>
+                <ProductContextProvider> 
+                    <WishlistsContextProvider>                   
 
-        <main>
-            
-        </main>
+                            <Header />              
 
-        <Footer/>
+                            <WishlistsProductsComponents/>          
+
+                            <Footer />
+
+                            <ToastContainer position="top-right" autoClose={3000}/>
+
+                    </WishlistsContextProvider> 
+                </ProductContextProvider>
+            </CategoriesContextProvider>
+           
         </>
     )
 }

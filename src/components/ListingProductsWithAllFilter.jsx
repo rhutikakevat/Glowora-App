@@ -3,6 +3,7 @@ import Slider from "@mui/material/Slider";
 import { FiFilter } from "react-icons/fi";
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import { useCategoriesContext } from "../context/Categories.context";
+import { useWishlistsContext } from "../context/Wishlists.Context";
 
 export default function ListingProductswithAllFilter() {    
     const { productsLoading, productsError,
@@ -16,7 +17,8 @@ export default function ListingProductswithAllFilter() {
 
     const { selectedCategories, categories, handleCategoryChange } = useCategoriesContext();
 
-   
+    const {wishlistLoading, isWishlisted, wishlistError,wishlistHandler} = useWishlistsContext();
+
     const renderFilters = () => (
         <div className="card shadow-sm border-0 mt-2">
             <div className="card-body">
@@ -251,12 +253,54 @@ export default function ListingProductswithAllFilter() {
                                                         }}
                                                     />
 
-                                                    
+                                                        <button className="btn position-absolute p-0"
+                                                            style={{
+                                                                top:"15px",
+                                                                right:"15px",
+                                                                borderRadius:"50%",
+                                                                width:"35px",
+                                                                height:"35px",
+                                                                display:"flex",
+                                                                alignItems:"center",
+                                                                justifyContent:"center"
+                                                            }}
+
+                                                            disabled={wishlistLoading === product._id}
+                                                            
+                                                            onClick={()=> wishlistHandler(product?._id)}
+
+                                                            aria-label={isWishlisted(product?._id) ? "Remove from wishlist" : "Add to wishlist"}
+                                        >
+                                                        {wishlistLoading === product._id ? (
+                                                            <div className="spinner-border spinner-border-sm text-danger"
+                                                                role="status"
+                                                            >    
+                                                            </div>
+                                                        ) : (
+                                                        <i className={`${isWishlisted(product?._id) ? 'fas' : 'far'} fa-heart`}
+                                                            style={{
+                                                            color: isWishlisted(product?._id) ? '#f11c58ff' : '#525050ff',
+                                                            fontSize: '1.22rem'
+                                                        }}
+                                                        >                                                
+                                                        </i>
+                                                        )}                                            
+                                                    </button>
+
+                                                    {wishlistError && (
+                                                        <div className="alert alert-danger mt-2">
+                                                            {wishlistError}
+                                                        </div>
+                                                    )}
+                                
                                                 </div>
 
                                                 <div className="card-body d-flex flex-column">
                                                     <h5 
-                                                        onClick={() => navigate(`/api/products/${product._id}`)} 
+                                                        onClick={(event) => {
+                                                            event.preventDefault();
+                                                            navigate(`/products/${product._id}`)
+                                                        }} 
                                                         style={{
                                                             cursor: "pointer",
                                                             fontSize: '1rem',

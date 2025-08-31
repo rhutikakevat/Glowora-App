@@ -7,6 +7,7 @@ import CustomersLogo from "/Customers.png";
 import Header from "./Header";
 import Footer from "./Footer";
 import { useCategoriesContext } from "../context/Categories.context";
+import { useWishlistsContext } from "../context/Wishlists.Context";
 
 export default function MainContent() {
   const {
@@ -17,6 +18,11 @@ export default function MainContent() {
     navigate,
     carouselImages,
   } = useProductContext(); 
+
+  const {
+    wishlistLoading, isWishlisted, wishlistError,
+    wishlistHandler
+  } = useWishlistsContext();
 
   const { 
     categories,
@@ -62,7 +68,7 @@ export default function MainContent() {
 
       <section className="mb-5 mt-3">
         <div id="mainCarousel" className="carousel slide" 
-        data-bs-ride="carousel">
+             data-bs-ride="carousel">
           <div className="carousel-inner rounded-4">
             {carouselImages.map((img, index) => (
               <div className={`carousel-item ${index === 0 ? 'active' : ''}`} 
@@ -232,9 +238,45 @@ export default function MainContent() {
                              }} 
                         style={{ objectFit: 'contain' }}
                       />
+                          <button className="btn position-absolute p-0"
+                                                style={{
+                                                    top:"15px",
+                                                    right:"15px",
+                                                    borderRadius:"50%",
+                                                    width:"35px",
+                                                    height:"35px",
+                                                    display:"flex",
+                                                    alignItems:"center",
+                                                    justifyContent:"center"
+                                                }}
 
-                       
-                                                        
+                                                disabled={wishlistLoading === product._id}
+                                                
+                                                onClick={()=> wishlistHandler(product?._id)}
+
+                                                aria-label={isWishlisted(product?._id) ? "Remove from wishlist" : "Add to wishlist"}
+                            >
+                                            {wishlistLoading === product._id ? (
+                                                <div className="spinner-border spinner-border-sm text-danger"
+                                                     role="status"
+                                                >    
+                                                </div>
+                                            ) : (
+                                            <i className={`${isWishlisted(product?._id) ? 'fas' : 'far'} fa-heart`}
+                                                style={{
+                                                   color: isWishlisted(product?._id) ? '#f11c58ff' : '#525050ff',
+                                                   fontSize: '1.22rem'
+                                               }}
+                                            >                                                
+                                            </i>
+                                            )}                                            
+                                        </button>
+
+                                        {wishlistError && (
+                                            <div className="alert alert-danger mt-2">
+                                                {wishlistError}
+                                            </div>
+                                        )}                                                                            
                     </div>
                     <div className="card-body p-2 text-center">
                       <h6  onClick={() => {
