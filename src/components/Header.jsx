@@ -9,7 +9,7 @@ export default function Header() {
   const cartCount = 5;
   // Change after have original count
 
-  console.log(wishlistCount)
+  
 
     return (
         <header>

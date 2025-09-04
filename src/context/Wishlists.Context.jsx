@@ -33,11 +33,11 @@ export const WishlistsContextProvider = ({children}) => {
 
                 const data = await response.json();
             
-                const productIds = data?.data?.map(item => String(item.product._id)) || [];
+                const products = data?.data?.map(item => item.product) || [];
 
-                setWishlist(productIds);
+                setWishlist(products)
 
-                localStorage.setItem("wishlist", JSON.stringify(productIds));
+                localStorage.setItem("wishlist", JSON.stringify(products));
 
             } catch (error) {
                 console.error("Error loading wishlist:", error);
@@ -82,7 +82,7 @@ export const WishlistsContextProvider = ({children}) => {
             if(postedData){
                 toast.success("Product added to Wishlist ❤️")
 
-                setWishlist((preValue)=>[...preValue,productId])
+                setWishlist((preValue)=>[...preValue,postedData.data.product])
             }
         }
         } catch (error) {
@@ -112,7 +112,7 @@ export const WishlistsContextProvider = ({children}) => {
                 if(deletedData){
                     toast.success("Product removed from Wishlist 🗑️")
 
-                    setWishlist((preValue)=>preValue.filter((id)=>id !== productId))
+                    setWishlist((preValue)=>preValue.filter((product)=>product._id !== productId))
                 }
             }
         } catch (error) {
@@ -127,7 +127,7 @@ export const WishlistsContextProvider = ({children}) => {
     const wishlistCount = wishlist.length;
     
     const isWishlisted = (productId) => {
-        return wishlist.includes(String(productId));
+        return wishlist.some(product => String(product._id) === String(productId));
     };
 
     const wishlistHandler = (productId) => {
@@ -143,7 +143,7 @@ export const WishlistsContextProvider = ({children}) => {
 
     return (
         <WishlistsContext.Provider value={{
-            wishlistLoading, isWishlisted: (id) => wishlist.includes(String(id)),
+            wishlistLoading, isWishlisted,
             wishlistError, wishlist, wishlistCount, wishlistHandler
         }}>
             {children}

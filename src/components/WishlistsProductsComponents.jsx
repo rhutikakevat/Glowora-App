@@ -12,15 +12,13 @@ export default function WishlistProducts() {
 
     const { 
         wishlistLoading, 
+        wishlist,
         isWishlisted, 
         wishlistError, 
         wishlistHandler,
-    } = useWishlistsContext();
+    } = useWishlistsContext();  
 
-    const { data: wishlistData, loading: wishlistDataLoading, error: wishlistDataError } 
-        = useFetch("https://glowora-app-backend-api.vercel.app/api/wishlist/products");
-
-    if (wishlistDataLoading) {
+    if (wishlistLoading) {
         return (
             <>
                 <main className="container vh-100 d-flex 
@@ -36,7 +34,7 @@ export default function WishlistProducts() {
         );
     }
 
-    if (wishlistDataError) {
+    if (wishlistError) {
         return (
             <>               
                 <main className="container py-5 text-center">
@@ -62,22 +60,22 @@ export default function WishlistProducts() {
                     <div className="col-12">
                         <h3 className="mb-4 py-2 border-bottom">
                             Wishlisted Products {" "}
-                            ({wishlistData?.data.length || 0})
+                            ({wishlist?.length || 0})
                         </h3>
                         
-                        {wishlistData?.data && wishlistData?.data?.length > 0 ? (
+                        {wishlist && wishlist?.length > 0 ? (
                             <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
-                                {wishlistData?.data?.map((product) => (
+                                {wishlist?.map((product) => (
                                     <div key={product._id} className="col">
                                         <div className="card h-100 shadow-sm border-0">
                                             <div className="position-relative">
                                                 <img  
                                                     onClick={(event) => {
                                                         event.preventDefault();
-                                                        navigate(`/products/${product?.product?._id}`)
+                                                        navigate(`/products/${product?._id}`)
                                                     }} 
-                                                    src={product?.product?.profileImage}
-                                                    alt={product?.product?.name}
+                                                    src={product?.profileImage}
+                                                    alt={product?.name}
                                                     className="card-img-top p-2"
                                                     style={{ 
                                                         height: "200px", 
@@ -99,23 +97,23 @@ export default function WishlistProducts() {
                                                     justifyContent:"center"
                                                 }}
 
-                                                disabled={wishlistLoading === product?.product?._id}
+                                                disabled={wishlistLoading === product?._id}
                                                 
                                                 onClick={()=>{
-                                                     wishlistHandler(product?.product?._id)
+                                                     wishlistHandler(product?._id)
                                                     }}
 
-                                                aria-label={isWishlisted(product?.product?._id) ? "Remove from wishlist" : "Add to wishlist"}
+                                                aria-label={isWishlisted(product?._id) ? "Remove from wishlist" : "Add to wishlist"}
                             >
-                                            {wishlistLoading === product?.product?._id ? (
+                                            {wishlistLoading === product?._id ? (
                                                 <div className="spinner-border spinner-border-sm text-danger"
                                                      role="status"
                                                 >    
                                                 </div>
                                             ) : (
-                                            <i className={`${isWishlisted(product?.product?._id) ? 'fas' : 'far'} fa-heart`}
+                                            <i className={`${isWishlisted(product?._id) ? 'fas' : 'far'} fa-heart`}
                                                 style={{
-                                                   color: isWishlisted(product?.product?._id) ? '#f11c58ff' : '#525050ff',
+                                                   color: isWishlisted(product?._id) ? '#f11c58ff' : '#525050ff',
                                                    fontSize: '1.22rem'
                                                }}
                                             >                                                
@@ -135,7 +133,7 @@ export default function WishlistProducts() {
                                                 <h5 
                                                     onClick={(event) => {
                                                         event.preventDefault();
-                                                        navigate(`/products/${product?.product?._id}`)
+                                                        navigate(`/products/${product?._id}`)
                                                     }} 
                                                     style={{
                                                         cursor: "pointer",
@@ -148,21 +146,21 @@ export default function WishlistProducts() {
                                                     }}  
                                                     className="card-title"
                                                 >
-                                                    {product?.product?.name}
+                                                    {product?.name}
                                                 </h5>
                                                 <div className="mb-2" style={{color: "#f11c58ff"}}>
-                                                    <span className="fw-bold">MRP: ₹{product?.product?.price}</span>
+                                                    <span className="fw-bold">MRP: ₹{product?.price}</span>
                                                 </div>
                                                 <div className="d-flex align-items-center mb-3">
                                                     <div className="me-2">
-                                                        {renderRatingStars(product?.product?.ratings)}
+                                                        {renderRatingStars(product?.ratings)}
                                                     </div>
-                                                    <small className="text-muted">({product?.product?.ratings})</small>
+                                                    <small className="text-muted">({product?.ratings})</small>
                                                 </div>
                                                 
                                                 <div className="d-flex gap-2 mt-auto">
                                                     <button
-                                                        onClick={() => handleAddToCart(product?.product?._id)}
+                                                        onClick={() => handleAddToCart(product?._id)}
                                                         className="btn text-light fw-semibold flex-grow-1"
                                                         style={{
                                                             backgroundColor: "#f11c58ff",
