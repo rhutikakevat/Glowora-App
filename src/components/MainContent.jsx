@@ -300,20 +300,16 @@ export default function MainContent() {
                         <span className="small">({product.ratings})</span>
                       </div>
 
-                      <div className="d-grid gap-2 col-5 mb-2 mx-auto">
-                       <button
+                      <button
                          onClick={() => handleAddToCart(product._id)}
-                         className="btn text-light"
+                         className="btn text-light mb-2 fw-semibold"
                            style={{
                              backgroundColor: "#f11c58ff",
                              border: 'none',
-                             padding: '4px',
-                             borderRadius: '8px'
-                                }}
+                            }}
                         >
                            Add to Cart
-                       </button>
-                      </div>                     
+                       </button>                     
                     </div>
                   </div>
               
