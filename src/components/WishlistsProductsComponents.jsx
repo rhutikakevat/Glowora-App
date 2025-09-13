@@ -64,7 +64,7 @@ export default function WishlistProducts() {
                         </h3>
                         
                         {wishlist && wishlist?.length > 0 ? (
-                            <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+                            <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
                                 {wishlist?.map((product) => (
                                     <div key={product._id} className="col">
                                         <div className="card h-100 shadow-sm border-0">

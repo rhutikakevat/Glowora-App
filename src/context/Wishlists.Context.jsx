@@ -106,7 +106,7 @@ export const WishlistsContextProvider = ({children}) => {
 
             if(!response.ok){
                 throw new Error("Failed to remove the data")
-            }else{
+            }else{   
                 const deletedData = await response.json();
 
                 if(deletedData){
@@ -134,8 +134,10 @@ export const WishlistsContextProvider = ({children}) => {
         if (!productId) return;   
 
         if (isWishlisted(productId)) {
+            setWishlist(preValue => preValue.filter((product)=> product._id !== productId))
             removeFromWishlist(productId);
         } else {
+            setWishlist(preValue=> [...preValue, {_id : productId}])
             addToWishlist(productId);
         }
     }; 

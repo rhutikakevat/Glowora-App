@@ -7,9 +7,7 @@ import { useWishlistsContext } from "../context/Wishlists.Context";
 export default function Header() {
   const { wishlistCount } = useWishlistsContext()
   const cartCount = 5;
-  // Change after have original count
-
-  
+  // Change after have original count  
 
     return (
         <header>
