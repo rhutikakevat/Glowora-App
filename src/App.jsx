@@ -4,7 +4,7 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import { ProductContextProvider} from "./context/Products.context.jsx";
 import MainContent from "./components/MainContent.jsx";
 import { CategoriesContextProvider } from "./context/Categories.context.jsx";
-import { WishlistsContextProvider } from "./context/Wishlists.Context.jsx";
+import { WishlistsContextProvider } from "./context/Wishlists.context.jsx";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
