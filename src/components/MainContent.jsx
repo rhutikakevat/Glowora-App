@@ -7,7 +7,7 @@ import CustomersLogo from "/Customers.png";
 import Header from "./Header";
 import Footer from "./Footer";
 import { useCategoriesContext } from "../context/Categories.context";
-import { useWishlistsContext } from "../context/Wishlists.Context";
+import { useWishlistsContext } from "../context/Wishlists.context";
 
 export default function MainContent() {
   const {

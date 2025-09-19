@@ -120,15 +120,6 @@ export const ProductContextProvider = ({ children }) => {
         return stars;
     };   
 
-     const handleAddToCart = (productId) => {
-        // Logic implement
-    };
-    
-    const handleAddToWishlist=()=>{
-        // Logic implement
-    }
-
-
     //Use in Product Details Page 
 
     useEffect(() => {
@@ -175,7 +166,6 @@ export const ProductContextProvider = ({ children }) => {
     <ProductContext.Provider value={
       {
         products, productsLoading, productsError,
-        handleAddToCart,handleAddToWishlist,
         handlerClearAll, handlerPriceChage,handlerRatingChange,displayedProducts,
         renderRatingStars, selectedRating,selectedPrice,selectedPriceForFilter, 
         handlerPriceFilter,navigate,productDetailsData,

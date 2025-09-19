@@ -1,5 +1,5 @@
 import { useProductContext } from "../context/Products.context";
-import { useWishlistsContext } from "../context/Wishlists.Context";
+import { useWishlistsContext } from "../context/Wishlists.context";
 
 export default function ProductDetailPageComponents() {
     const { renderRatingStars, handleAddToCart,
@@ -150,7 +150,7 @@ export default function ProductDetailPageComponents() {
                                                 type="number"
                                                 className="form-control text-center"
                                                 value={quantity}
-                                                min="1"
+                                                min={1}
                                                 max={productDetailsData?.data?.product?.stock}
                                                 onChange={(e) => setQuantity(parseInt(e.target.value) || 1)}
                                                 style={{

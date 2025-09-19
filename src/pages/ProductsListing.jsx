@@ -4,7 +4,7 @@ import "react-toastify/dist/ReactToastify.css";
 import ListingProductswithAllFilter from "../components/ListingProductsWithAllFilter";
 import { ProductContextProvider } from "../context/Products.context";
 import { CategoriesContextProvider } from "../context/Categories.context";
-import { WishlistsContextProvider } from "../context/Wishlists.Context";
+import { WishlistsContextProvider } from "../context/Wishlists.context";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 

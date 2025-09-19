@@ -2,7 +2,7 @@ import logo from "/logo.jpg";
 import { NavLink } from "react-router-dom";
 import { FaSearch, FaHeart, FaShoppingCart, FaUser } from "react-icons/fa";
 import { GiCardboardBoxClosed } from "react-icons/gi";
-import { useWishlistsContext } from "../context/Wishlists.Context";
+import { useWishlistsContext } from "../context/Wishlists.context";
 
 export default function Header() {
   const { wishlistCount } = useWishlistsContext()

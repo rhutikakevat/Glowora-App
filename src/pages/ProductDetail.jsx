@@ -6,7 +6,7 @@ import ProductDetailPageComponents from "../components/ProductDetailPageComponen
 import { CategoriesContextProvider } from "../context/Categories.context";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { WishlistsContextProvider } from "../context/Wishlists.Context";
+import { WishlistsContextProvider } from "../context/Wishlists.context";
 
 export default function ProductDetail() {
     return (

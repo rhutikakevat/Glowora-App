@@ -3,7 +3,7 @@ import Slider from "@mui/material/Slider";
 import { FiFilter } from "react-icons/fi";
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import { useCategoriesContext } from "../context/Categories.context";
-import { useWishlistsContext } from "../context/Wishlists.Context";
+import { useWishlistsContext } from "../context/Wishlists.context";
 
 export default function ListingProductswithAllFilter() {    
     const { productsLoading, productsError,

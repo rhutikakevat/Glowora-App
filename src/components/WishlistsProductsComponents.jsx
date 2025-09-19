@@ -1,7 +1,6 @@
 import { useProductContext } from "../context/Products.context";
 import 'bootstrap-icons/font/bootstrap-icons.css';
-import { useWishlistsContext } from "../context/Wishlists.Context";
-import useFetch from "../hooks/useFetch";
+import { useWishlistsContext } from "../context/Wishlists.context";
 
 export default function WishlistProducts() {
     const { 
