@@ -3,11 +3,11 @@ import { NavLink } from "react-router-dom";
 import { FaSearch, FaHeart, FaShoppingCart, FaUser } from "react-icons/fa";
 import { GiCardboardBoxClosed } from "react-icons/gi";
 import { useWishlistsContext } from "../context/Wishlists.context";
+import { useCartContext } from "../context/Cart.context";
 
 export default function Header() {
   const { wishlistCount } = useWishlistsContext()
-  const cartCount = 5;
-  // Change after have original count  
+  const { cartCount } = useCartContext();
 
     return (
         <header>

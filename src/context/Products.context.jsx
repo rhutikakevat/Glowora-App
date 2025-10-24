@@ -51,7 +51,6 @@ export const ProductContextProvider = ({ children }) => {
     const filterFeaturedProducts = products?.data?.products.filter((product) => product.isFeatured) || [];
 
     const carouselImages = [
-    "https://makeupworldbd.com/makeupshop/storage/app/public/sliders/MAKEUP-19-01-2021.jpg",
     "https://cmsimages.ssbeauty.in/Luxuryskincare_top_carousel_web_1_5381678edb/Luxuryskincare_top_carousel_web_1_5381678edb.jpg",
     "https://www.perfumeprice.co.uk/media/wysiwyg/3800-x-1000-Summer-Sale-Banner.webp",
     ];

@@ -7,6 +7,7 @@ import { CategoriesContextProvider } from "../context/Categories.context";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { WishlistsContextProvider } from "../context/Wishlists.context";
+import { CartContextProvider } from "../context/Cart.context";
 
 export default function ProductDetail() {
     return (
@@ -14,7 +15,8 @@ export default function ProductDetail() {
             <CategoriesContextProvider>
                 <ProductContextProvider> 
                     <WishlistsContextProvider>                   
-
+                        <CartContextProvider>
+                            
                             <Header />              
 
                             <ProductDetailPageComponents />              
@@ -22,7 +24,8 @@ export default function ProductDetail() {
                             <Footer />
 
                             <ToastContainer position="top-right" autoClose={3000}/>
-
+                       
+                        </CartContextProvider>
                     </WishlistsContextProvider> 
                 </ProductContextProvider>
             </CategoriesContextProvider>
