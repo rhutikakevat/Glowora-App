@@ -9,9 +9,14 @@ export default function CartProductsComponent() {
     removeFromCart,
     cartLoading,
     handleQuantityChangeCart,
+    moveCartToWishlist,
   } = useCartContext();
 
   const { navigate } = useProductContext();
+
+  const totalPriceOfItem = (item) => {
+    return item?.productId?.price * item?.quantity;
+  };
 
   const totalPrice = cart.reduce(
     (acc, curr) => acc + curr.productId.price * curr.quantity,
@@ -66,7 +71,6 @@ export default function CartProductsComponent() {
       </main>
     );
   }
-  console.log(cart);
 
   return (
     <>
@@ -143,14 +147,21 @@ export default function CartProductsComponent() {
                               {item?.productId?.name}
                             </h6>
 
-                            <span className="text-danger fw-semibold">
+                            <span className="text-danger d-block fw-semibold">
                               Price: ₹{item?.productId?.price} per item
                             </span>
 
-                            <br />
-
                             <button
                               className="text-muted btn btn-link p-0 mt-3"
+                              onClick={() =>
+                                moveCartToWishlist(item?.productId?._id)
+                              }
+                            >
+                              Move to Wishlist
+                            </button>
+
+                            <button
+                              className="text-muted btn btn-link p-0 mt-3 ms-4"
                               onClick={() => removeFromCart(item._id)}
                             >
                               Remove
@@ -202,7 +213,7 @@ export default function CartProductsComponent() {
                       <div className="col-2 col-md-2">
                         <div className="text-center text-md-center">
                           <span className="text-danger fs-4 fw-semibold">
-                            ₹{item?.productId?.price * item?.quantity}
+                            ₹{totalPriceOfItem(item).toFixed(2)}
                           </span>
                         </div>
                       </div>

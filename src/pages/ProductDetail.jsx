@@ -1,5 +1,5 @@
-import Header from "../components/Header"
-import Footer from "../components/Footer"
+import Header from "../components/Header";
+import Footer from "../components/Footer";
 import "react-toastify/dist/ReactToastify.css";
 import { ProductContextProvider } from "../context/Products.context";
 import ProductDetailPageComponents from "../components/ProductDetailPageComponents";
@@ -10,26 +10,23 @@ import { WishlistsContextProvider } from "../context/Wishlists.context";
 import { CartContextProvider } from "../context/Cart.context";
 
 export default function ProductDetail() {
-    return (
-        <>          
-            <CategoriesContextProvider>
-                <ProductContextProvider> 
-                    <WishlistsContextProvider>                   
-                        <CartContextProvider>
-                            
-                            <Header />              
+  return (
+    <>
+      <CategoriesContextProvider>
+        <ProductContextProvider>
+          <WishlistsContextProvider>
+            <CartContextProvider>
+              <Header />
 
-                            <ProductDetailPageComponents />              
+              <ProductDetailPageComponents />
 
-                            <Footer />
+              <Footer />
 
-                            <ToastContainer position="top-right" autoClose={3000}/>
-                       
-                        </CartContextProvider>
-                    </WishlistsContextProvider> 
-                </ProductContextProvider>
-            </CategoriesContextProvider>
-           
-        </>
-    )
+              <ToastContainer position="top-right" autoClose={3000} />
+            </CartContextProvider>
+          </WishlistsContextProvider>
+        </ProductContextProvider>
+      </CategoriesContextProvider>
+    </>
+  );
 }

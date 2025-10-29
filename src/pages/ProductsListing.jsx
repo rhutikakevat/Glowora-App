@@ -10,25 +10,23 @@ import "react-toastify/dist/ReactToastify.css";
 import { CartContextProvider } from "../context/Cart.context";
 
 export default function ProductsListing() {
-    return (
-        <>
-            <CategoriesContextProvider>
-                <ProductContextProvider>    
-                    <WishlistsContextProvider>
-                        <CartContextProvider>
-                            
-                            <Header/>   
-                                    
-                            <ListingProductswithAllFilter />  
-                            
-                            <Footer/>
+  return (
+    <>
+      <CategoriesContextProvider>
+        <ProductContextProvider>
+          <WishlistsContextProvider>
+            <CartContextProvider>
+              <Header />
 
-                            <ToastContainer position="top-right" autoClose={3000}/>
-                        
-                        </CartContextProvider>
-                    </WishlistsContextProvider>
-                </ProductContextProvider>
-            </CategoriesContextProvider>
-        </>
-    );
+              <ListingProductswithAllFilter />
+
+              <Footer />
+
+              <ToastContainer position="top-right" autoClose={3000} />
+            </CartContextProvider>
+          </WishlistsContextProvider>
+        </ProductContextProvider>
+      </CategoriesContextProvider>
+    </>
+  );
 }

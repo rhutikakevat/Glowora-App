@@ -122,7 +122,7 @@ export const WishlistsContextProvider = ({ children }) => {
       console.log("Error while removing from wishlist: ", error);
 
       toast.error("Error while removing from wishlist");
-      
+
       setWishlistError(error.message);
     } finally {
       setWishlistLoading(null);
@@ -151,6 +151,8 @@ export const WishlistsContextProvider = ({ children }) => {
     }
   };
 
+  
+
   return (
     <WishlistsContext.Provider
       value={{
@@ -160,6 +162,9 @@ export const WishlistsContextProvider = ({ children }) => {
         wishlist,
         wishlistCount,
         wishlistHandler,
+        addToWishlist,
+        removeFromWishlist,
+      
       }}
     >
       {children}

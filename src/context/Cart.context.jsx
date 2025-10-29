@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import { useWishlistsContext } from "./Wishlists.context.jsx";
 import { toast } from "react-toastify";
 
 const CartContext = createContext();
@@ -17,6 +18,8 @@ export const CartContextProvider = ({ children }) => {
   const [cartLoading, setCartLoading] = useState(null);
   const [cartError, setCartError] = useState(null);
   const [cart, setCart] = useState([]);
+
+  const { isWishlisted, addToWishlist } = useWishlistsContext();
 
   useEffect(() => {
     const loadCart = async () => {
@@ -195,6 +198,18 @@ export const CartContextProvider = ({ children }) => {
     }
   };
 
+  const moveCartToWishlist = async (productId) => {
+    if (!isWishlisted(productId)) {
+      await addToWishlist(productId);
+      await removeFromCart(
+        cart.find((item) => item.productId._id === productId)._id
+      );
+
+      toast.success("Moved an item from the cart to the wishlist ❤️");
+    } else {
+      toast.info("Item already in the wishlist ❤️");
+    }
+  };
   const cartCount = cart?.length;
 
   return (
@@ -207,6 +222,7 @@ export const CartContextProvider = ({ children }) => {
         removeFromCart,
         cartLoading,
         handleQuantityChangeCart,
+        moveCartToWishlist,
       }}
     >
       {children}

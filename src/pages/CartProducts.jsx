@@ -8,26 +8,24 @@ import { ProductContextProvider } from "../context/Products.context";
 import { CategoriesContextProvider } from "../context/Categories.context";
 import { CartContextProvider } from "../context/Cart.context";
 
-export default function CartProducts(){
-    return (
-        <>
-        <CategoriesContextProvider>
-          <ProductContextProvider>
-            <WishlistsContextProvider>
-              <CartContextProvider>
-            
-                <Header/>
+export default function CartProducts() {
+  return (
+    <>
+      <CategoriesContextProvider>
+        <ProductContextProvider>
+          <WishlistsContextProvider>
+            <CartContextProvider>
+              <Header />
 
-                <CartProductsComponent/>
+              <CartProductsComponent />
 
-                <Footer/>
+              <Footer />
 
-                <ToastContainer position="top-right" autoClose={3000}/>
-
-              </CartContextProvider>
-            </WishlistsContextProvider>
-          </ProductContextProvider>
-        </CategoriesContextProvider>
-        </>
-    )
+              <ToastContainer position="top-right" autoClose={3000} />
+            </CartContextProvider>
+          </WishlistsContextProvider>
+        </ProductContextProvider>
+      </CategoriesContextProvider>
+    </>
+  );
 }
