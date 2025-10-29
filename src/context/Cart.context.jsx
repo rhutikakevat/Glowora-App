@@ -199,9 +199,9 @@ export const CartContextProvider = ({ children }) => {
 
   const moveCartToWishlist = async (productId) => {
     if (!isWishlisted(productId)) {
-      await addToWishlist(productId);
+      toast.info("Moved an item from the cart to the wishlist ❤️");
 
-      toast.success("Moved an item from the cart to the wishlist ❤️");
+      await addToWishlist(productId);
     } else {
       toast.info("Item already in the wishlist ❤️");
     }
