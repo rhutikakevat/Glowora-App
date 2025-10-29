@@ -151,11 +151,10 @@ export const CartContextProvider = ({ children }) => {
     try {
       const cartItem = cart.find((item) => item._id === cartProductId);
 
-      const newQuantity = cartItem.quantity + changeQuantity;
+      if (!cartItem) return toast.error("Cart item not found!");
 
-      if (newQuantity <= 0) {
-        await removeFromCart(cartProductId);
-        return;
+      if (cartItem.quantity + changeQuantity < 1) {
+        return toast.info("Quantity cannot be less than 1");
       }
 
       setCartLoading(cartProductId);
@@ -201,9 +200,6 @@ export const CartContextProvider = ({ children }) => {
   const moveCartToWishlist = async (productId) => {
     if (!isWishlisted(productId)) {
       await addToWishlist(productId);
-      await removeFromCart(
-        cart.find((item) => item.productId._id === productId)._id
-      );
 
       toast.success("Moved an item from the cart to the wishlist ❤️");
     } else {

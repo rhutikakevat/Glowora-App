@@ -137,21 +137,19 @@ export const WishlistsContextProvider = ({ children }) => {
     );
   };
 
-  const wishlistHandler = (productId) => {
+  const wishlistHandler = async (productId) => {
     if (!productId) return;
 
     if (isWishlisted(productId)) {
       setWishlist((preValue) =>
         preValue.filter((product) => product._id !== productId)
       );
-      removeFromWishlist(productId);
+      await removeFromWishlist(productId);
     } else {
       setWishlist((preValue) => [...preValue, { _id: productId }]);
-      addToWishlist(productId);
+      await addToWishlist(productId);
     }
   };
-
-  
 
   return (
     <WishlistsContext.Provider
@@ -164,7 +162,6 @@ export const WishlistsContextProvider = ({ children }) => {
         wishlistHandler,
         addToWishlist,
         removeFromWishlist,
-      
       }}
     >
       {children}

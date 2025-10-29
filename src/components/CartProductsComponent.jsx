@@ -57,7 +57,6 @@ export default function CartProductsComponent() {
   if (!cart || cart.length === 0) {
     return (
       <main>
-        (
         <div className="text-center py-5">
           <strong className="d-block fs-5 mb-3">Your Cart is Empty!</strong>
           <button
@@ -67,7 +66,6 @@ export default function CartProductsComponent() {
             Continue Shopping
           </button>
         </div>
-        )
       </main>
     );
   }
@@ -179,6 +177,7 @@ export default function CartProductsComponent() {
                             <button
                               className="btn btn-outline-dark"
                               type="button"
+                              disabled={item?.quantity < 1}
                               onClick={() =>
                                 handleQuantityChangeCart(item._id, -1)
                               }
