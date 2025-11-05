@@ -1,28 +1,30 @@
-import Footer from "../components/Footer";
 import Header from "../components/Header";
-import "react-toastify/dist/ReactToastify.css";
-import ListingProductswithAllFilter from "../components/ListingProductsWithAllFilter";
+import Footer from "../components/Footer";
 import { ProductContextProvider } from "../context/Products.context";
 import { CategoriesContextProvider } from "../context/Categories.context";
-import { WishlistsContextProvider } from "../context/Wishlists.context";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { WishlistsContextProvider } from "../context/Wishlists.context";
 import { CartContextProvider } from "../context/Cart.context";
+import UserProfileComponent from "../components/UserProfileComponent";
+import { UsersProfileContextProvider } from "../context/User.context";
 
-export default function ProductsListing() {
+export default function UserProfile() {
   return (
     <>
       <CategoriesContextProvider>
         <ProductContextProvider>
           <WishlistsContextProvider>
             <CartContextProvider>
-              <Header />
+              <UsersProfileContextProvider>
+                <Header />
 
-              <ListingProductswithAllFilter />
+                <UserProfileComponent />
 
-              <Footer />
+                <Footer />
 
-              <ToastContainer position="top-right" autoClose={3000} />
+                <ToastContainer position="top-right" autoClose={3000} />
+              </UsersProfileContextProvider>
             </CartContextProvider>
           </WishlistsContextProvider>
         </ProductContextProvider>

@@ -6,6 +6,7 @@ import ProductsListing from './pages/ProductsListing.jsx'
 import ProductDetail from './pages/ProductDetail.jsx'
 import WishlistProducts from './pages/WishlistProducts.jsx'
 import CartProducts from './pages/CartProducts.jsx'
+import UserProfile from './pages/UserProfile.jsx'
 
 
 const routes = createBrowserRouter([
@@ -28,6 +29,10 @@ const routes = createBrowserRouter([
   {
     path:"/cart",
     element:<CartProducts/>
+  },
+  {
+    path:"/profile",
+    element:<UserProfile/>
   }
 ])
 

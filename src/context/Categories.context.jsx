@@ -41,7 +41,7 @@ export const CategoriesContextProvider = ({ children }) => {
     } else if (!categoryParam) {
       setSelectedCategories([]);
     }
-  }, [categoryParam,  categories]);
+  }, [categoryParam]);
 
   const handleCategoryChange = (event) => {
     const { value, checked } = event.target;
