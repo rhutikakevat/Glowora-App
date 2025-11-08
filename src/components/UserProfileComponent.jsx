@@ -65,7 +65,6 @@ export default function UserProfile() {
                           src={user.profileImage}
                           alt={user.name}
                           className="img-fluid rounded-circle shadow"
-                          loading="lazy"
                           style={{
                             width: "100px",
                             height: "100px",
@@ -200,7 +199,6 @@ export default function UserProfile() {
                       src={user.profileImage}
                       alt={user.name}
                       className="img-fluid rounded-circle shadow mb-4"
-                      loading="lazy"
                       style={{
                         width: "200px",
                         height: "200px",

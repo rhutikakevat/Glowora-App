@@ -275,7 +275,11 @@ export default function CartProductsComponent() {
                     <hr />
 
                     <div className="d-grid gap-2">
-                      <button type="button" className="btn btn-danger">
+                      <button
+                        type="button"
+                        onClick={() => navigate("/checkout")}
+                        className="btn btn-danger"
+                      >
                         Proceed to Checkout
                       </button>
                     </div>
