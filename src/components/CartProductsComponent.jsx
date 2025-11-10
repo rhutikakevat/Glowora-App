@@ -10,28 +10,15 @@ export default function CartProductsComponent() {
     cartLoading,
     handleQuantityChangeCart,
     moveCartToWishlist,
+    totalPriceOfItem,
+    finalTotal,
+    totalPrice,
+    discount,
+    taxRate,
+    deliveryCharge,
   } = useCartContext();
 
   const { navigate } = useProductContext();
-
-  const totalPriceOfItem = (item) => {
-    return item?.productId?.price * item?.quantity;
-  };
-
-  const totalPrice = cart.reduce(
-    (acc, curr) => acc + curr.productId.price * curr.quantity,
-    0
-  );
-
-  const discount = totalPrice > 30 ? 10 : 5;
-
-  const taxRate = totalPrice > 30 ? 0.05 : 0.03;
-
-  const tax = totalPrice * taxRate;
-
-  const deliveryCharge = totalPrice > 30 ? 0 : 5;
-
-  const finalTotal = totalPrice - discount + tax + deliveryCharge;
 
   if (cartLoading) {
     return (
@@ -223,70 +210,83 @@ export default function CartProductsComponent() {
             </div>
 
             <div className="col-lg-4 col-md-5 col-sm-12 mb-4">
-              <div className="card py-1 mt-3 shadow-sm">
-                <div className="card-body">
-                  <div className="card-text">
-                    <h4 className="text-danger fw-semibold">Order Summary</h4>
-                    <hr />
+              <div
+                className="card shadow-sm border-0 sticky-top"
+                style={{ top: "20px" }}
+              >
+                <div className="card-body p-4">
+                  <h4 className="text-danger fw-semibold mb-4">
+                    Order Summary
+                  </h4>
 
-                    <div>
-                      <strong className="float-start">Total Items: </strong>
-                      <span className="float-end">{cartCount}</span>
+                  <div className="mb-3">
+                    <div className="d-flex justify-content-between mb-2">
+                      <span>Total Items:</span>
+                      <span className="fw-semibold">{cartCount}</span>
+                    </div>
 
-                      <br />
-
-                      <strong className="float-start">Total Price: </strong>
-                      <span className="float-end">
+                    <div className="d-flex justify-content-between mb-2">
+                      <span>Total Price:</span>
+                      <span className="fw-semibold">
                         ₹{totalPrice.toFixed(2)}
                       </span>
+                    </div>
 
-                      <br />
-
-                      <strong className="float-start">Discount: </strong>
-                      <span className="float-end">₹{discount}</span>
-
-                      <br />
-
-                      <strong className="float-start">Tax: </strong>
-                      <span className="float-end">
-                        {taxRate === 0.05 ? "5%" : "3%"}
+                    <div className="d-flex justify-content-between mb-2">
+                      <span>Discount:</span>
+                      <span className="text-success fw-semibold">
+                        -₹{discount}
                       </span>
+                    </div>
 
-                      <br />
-
-                      <strong className="float-start">Delivery Charge: </strong>
-                      <span className="float-end">
-                        {deliveryCharge === 0 ? (
-                          <span className="text-success fw-semibold">FREE</span>
-                        ) : (
-                          `₹${deliveryCharge}`
-                        )}
+                    <div className="d-flex justify-content-between mb-2">
+                      <span>Tax ({taxRate === 0.05 ? "5%" : "3%"}):</span>
+                      <span className="fw-semibold">
+                        ₹{(totalPrice * taxRate).toFixed(2)}
                       </span>
+                    </div>
 
-                      <br />
-                      <hr />
+                    <div className="d-flex justify-content-between mb-3">
+                      <span>Delivery:</span>
+                      <span
+                        className={
+                          deliveryCharge === 0
+                            ? "text-success fw-semibold"
+                            : "fw-semibold"
+                        }
+                      >
+                        {deliveryCharge === 0 ? "FREE" : `₹${deliveryCharge}`}
+                      </span>
+                    </div>
 
-                      <strong className="float-start fs-5">Grand Total:</strong>
-                      <span className="float-end fw-bold fs-5">
+                    <hr />
+
+                    <div className="d-flex justify-content-between mb-3">
+                      <span className="fw-bold fs-5">Grand Total:</span>
+                      <span className="text-danger fw-bold fs-5">
                         ₹{finalTotal.toFixed(2)}
                       </span>
                     </div>
-                    <br />
-                    <hr />
-
-                    <div className="d-grid gap-2">
-                      <button
-                        type="button"
-                        onClick={() => navigate("/checkout")}
-                        className="btn btn-danger"
-                      >
-                        Proceed to Checkout
-                      </button>
-                    </div>
                   </div>
+
+                  <div className="d-grid gap-2">
+                    <button
+                      type="button"
+                      className="btn text-white fw-semibold py-2"
+                      style={{
+                        backgroundColor: "#f11c58ff",
+                        borderRadius: "8px",
+                        border: "none",
+                        fontSize: "1.1rem",
+                      }}
+                    >
+                      Proceed to Checkout
+                    </button>
+                  </div>
+
+                  
                 </div>
               </div>
-
               <div className="text-center mt-4">
                 <button
                   className="btn btn-outline-danger"

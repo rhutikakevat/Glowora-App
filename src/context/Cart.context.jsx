@@ -208,6 +208,25 @@ export const CartContextProvider = ({ children }) => {
   };
   const cartCount = cart?.length;
 
+  const totalPriceOfItem = (item) => {
+    return item?.productId?.price * item?.quantity;
+  };
+
+  const totalPrice = cart.reduce(
+    (acc, curr) => acc + curr.productId.price * curr.quantity,
+    0
+  );
+
+  const discount = totalPrice > 30 ? 10 : 5;
+
+  const taxRate = totalPrice > 30 ? 0.05 : 0.03;
+
+  const tax = totalPrice * taxRate;
+
+  const deliveryCharge = totalPrice > 30 ? 0 : 5;
+
+  const finalTotal = totalPrice - discount + tax + deliveryCharge;
+
   return (
     <CartContext.Provider
       value={{
@@ -219,6 +238,8 @@ export const CartContextProvider = ({ children }) => {
         cartLoading,
         handleQuantityChangeCart,
         moveCartToWishlist,
+        totalPriceOfItem,
+        finalTotal,totalPrice,discount,taxRate,deliveryCharge
       }}
     >
       {children}

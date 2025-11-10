@@ -300,7 +300,9 @@ export default function UserProfile() {
                           </strong>
                           <span>
                             {user.address.find((a) => a.isDefault).street},{" "}
-                            {user.address.find((a) => a.isDefault).landmark},{" "}
+                            {user.address.find((a) => a.isDefault).landmark}
+                            {/*  &&
+                              `${a.landmark},` add this */}
                             {user.address.find((a) => a.isDefault).city},{" "}
                             {user.address.find((a) => a.isDefault).state} -{" "}
                             {user.address.find((a) => a.isDefault).zipCode},{" "}
