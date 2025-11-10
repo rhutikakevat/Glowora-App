@@ -272,6 +272,7 @@ export default function CartProductsComponent() {
                   <div className="d-grid gap-2">
                     <button
                       type="button"
+                      onClick = {()=>navigate("/checkout")}
                       className="btn text-white fw-semibold py-2"
                       style={{
                         backgroundColor: "#f11c58ff",
