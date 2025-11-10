@@ -396,13 +396,13 @@ export default function CheckoutComponent() {
 
           <div className="card shadow-sm border-0">
             <div className="card-body p-4">
-              <h4 className="mb-4" style={{ color: "#f11c58ff" }}>
+              <h4 className="mb-2" style={{ color: "#f11c58ff" }}>
                 Order Items ({cart.length})
               </h4>
-              <hr />
 
               {cart.map((item) => (
                 <div className="row py-3 align-items-center" key={item._id}>
+                  <hr className="mb-5" />
                   <div className="col-md-2 col-4">
                     <img
                       onClick={() =>
@@ -422,7 +422,7 @@ export default function CheckoutComponent() {
 
                   <div className="col-md-6 col-8">
                     <h6
-                      className="mb-1"
+                      className="mb-1 fw-bold"
                       onClick={() =>
                         navigate(`/products/${item.productId._id}`)
                       }
@@ -440,11 +440,10 @@ export default function CheckoutComponent() {
                   </div>
 
                   <div className="col-md-4 col-12 mt-2 mt-md-0">
-                    <div className="text-end">
-                      <small>Total Price</small>
-                      <br />
+                    <div className="text-sm-center">
                       <span className="text-danger fs-5 fw-bold">
-                        ₹{totalPriceOfItem(item).toFixed(2)}
+                        <small className="text-muted">Total Price: </small>₹
+                        {totalPriceOfItem(item).toFixed(2)}
                       </span>
                     </div>
                   </div>

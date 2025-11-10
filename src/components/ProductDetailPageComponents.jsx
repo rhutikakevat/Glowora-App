@@ -137,7 +137,9 @@ export default function ProductDetailPageComponents() {
                         Buy Now
                       </button>
                       <button
-                        onClick={()=>addToCart(productDetailsData?.data?.product?._id)}
+                        onClick={() =>
+                          addToCart(productDetailsData?.data?.product?._id)
+                        }
                         className="btn btn-outline-danger mt-1 fw-semibold fs-6 btn-sm"
                         style={{
                           borderRadius: "8px",
@@ -282,7 +284,7 @@ export default function ProductDetailPageComponents() {
                           </li>
                           <li className="mb-2 py-2 border-bottom">
                             <strong>Product's Category:</strong>{" "}
-                            {productDetailsData?.data?.product?.category}
+                            {productDetailsData?.data?.product?.category?.name}
                           </li>
                           <li className="mb-2 py-2 border-bottom">
                             <strong>Rating:</strong>{" "}

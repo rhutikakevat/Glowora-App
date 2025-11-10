@@ -10,6 +10,12 @@ export default function UserProfile() {
 
   const orderHandler = () => {};
 
+  const defaultAddress = usersData?.data?.users?.map((user) =>
+    user.address.find((add) => add.isDefault)
+  );
+
+  const userDefaultAddress = defaultAddress?.[0];
+
   if (usersLoading) {
     return (
       <>
@@ -177,13 +183,16 @@ export default function UserProfile() {
                                 Address
                               </strong>
                               <span>
-                                {user.address.find((a) => a.isDefault).street},{" "}
-                                {user.address.find((a) => a.isDefault).landmark}
-                                , {user.address.find((a) => a.isDefault).city},{" "}
-                                {user.address.find((a) => a.isDefault).state},{" "}
-                                {user.address.find((a) => a.isDefault).country}{" "}
-                                -{" "}
-                                {user.address.find((a) => a.isDefault).zipCode}
+                                {userDefaultAddress ? (
+                                  <>
+                                    {userDefaultAddress.street}
+                                    {userDefaultAddress.landmark &&
+                                      `, ${userDefaultAddress.landmark}`}
+                                    {`, ${userDefaultAddress.city}, ${userDefaultAddress.state} - ${userDefaultAddress.zipCode}`}
+                                  </>
+                                ) : (
+                                  "No default address set"
+                                )}
                               </span>
                             </div>
                           </div>
@@ -300,12 +309,14 @@ export default function UserProfile() {
                           </strong>
                           <span>
                             {user.address.find((a) => a.isDefault).street},{" "}
-                            {user.address.find((a) => a.isDefault).landmark}
-                            {/*  &&
-                              `${a.landmark},` add this */}
+                            {user.address.find((a) => a.isDefault).landmark
+                              ? `${
+                                  user.address.find((a) => a.isDefault).landmark
+                                }, `
+                              : ""}
                             {user.address.find((a) => a.isDefault).city},{" "}
                             {user.address.find((a) => a.isDefault).state} -{" "}
-                            {user.address.find((a) => a.isDefault).zipCode},{" "}
+                            {user.address.find((a) => a.isDefault).zipCode}
                           </span>
                         </div>
                       </div>

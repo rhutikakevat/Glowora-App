@@ -83,6 +83,17 @@ export const AddressesContextProvider = ({ children }) => {
     }
   }, [showCreateAddress, isEditing, currentUser]);
 
+  const changeHandler = (event) => {
+    const { name, value, type, checked } = event.target;
+
+    setFormData({ ...formData, [name]: type === "checkbox" ? checked : value });
+    setSubmitError("");
+  };
+
+  // useEffect(() => {
+  //   console.log("Current user in checkout:", currentUser);
+  // }, [currentUser]);
+
   const createAddressHandler = async (addressData) => {
     try {
       setAddressLoading(true);
@@ -117,9 +128,12 @@ export const AddressesContextProvider = ({ children }) => {
 
       if (result.data) {
         setAddresses[(preValue) => [...preValue, result.data]];
-        window.location.reload();
 
         toast.success("Address created successfully");
+
+        setTimeout(() => {
+          window.location.reload();
+        }, 5000);
       }
 
       return result;
@@ -132,6 +146,31 @@ export const AddressesContextProvider = ({ children }) => {
       throw error;
     } finally {
       setAddressLoading(false);
+    }
+  };
+
+  const submitHandler = async (event) => {
+    event.preventDefault();
+    setSubmitError("");
+
+    try {
+      if (isEditing && editedAddressId) {
+        await updateAddressHandler(editedAddressId, formData);
+      } else {
+        if (!currentUser || !currentUser._id) {
+          console.error("Current user not available:", currentUser);
+          return;
+        }
+        const addressData = { ...formData, userId: currentUser?._id };
+
+        console.log("Submitting address with userId:", addressData.userId);
+        await createAddressHandler(addressData);
+      }
+
+      resetForm();
+      setShowCreateAddress(false);
+    } catch (error) {
+      console.log("Error saving address", error);
     }
   };
 
@@ -166,6 +205,28 @@ export const AddressesContextProvider = ({ children }) => {
     } finally {
       setAddressLoading(false);
     }
+  };
+
+  const handleEdit = (address) => {
+    setFormData({
+      fullName: address.fullName || currentUser?.name || "",
+      street: address.street || "",
+      landmark: address.landmark || "",
+      city: address.city || "",
+      state: address.state || "",
+      country: address.country || "",
+      zipCode: address.zipCode || "",
+      isDefault: address.isDefault || false,
+    });
+
+    setEditedAddressId(address._id);
+    setIsEditing(true);
+    setShowCreateAddress(true);
+  };
+
+  const handleCancel = () => {
+    resetForm();
+    setShowCreateAddress(false);
   };
 
   const updateAddressHandler = async (addressId, dataToUpdate) => {
@@ -249,7 +310,7 @@ export const AddressesContextProvider = ({ children }) => {
         );
 
         toast.success(
-          "An Address set as default address and also show in profile"
+          "Address set as default address"
         );
       }
     } catch (error) {
@@ -260,64 +321,6 @@ export const AddressesContextProvider = ({ children }) => {
     } finally {
       setAddressLoading(false);
     }
-  };
-
-  const changeHandler = (event) => {
-    const { name, value, type, checked } = event.target;
-
-    setFormData({ ...formData, [name]: type === "checkbox" ? checked : value });
-    setSubmitError("");
-  };
-
-  const submitHandler = async (event) => {
-    event.preventDefault();
-    setSubmitError("");
-
-    try {
-      if (isEditing && editedAddressId) {
-        await updateAddressHandler(editedAddressId, formData);
-      } else {
-        if (!currentUser || !currentUser._id) {
-          console.error("Current user not available:", currentUser);
-          return;
-        }
-        const addressData = { ...formData, userId: currentUser?._id };
-
-        console.log("Submitting address with userId:", addressData.userId);
-        await createAddressHandler(addressData);
-      }
-
-      resetForm();
-      setShowCreateAddress(false);
-    } catch (error) {
-      console.log("Error saving address", error);
-    }
-  };
-
-  // useEffect(() => {
-  //   console.log("Current user in checkout:", currentUser);
-  // }, [currentUser]);
-
-  const handleEdit = (address) => {
-    setFormData({
-      fullName: address.fullName || currentUser?.name || "",
-      street: address.street || "",
-      landmark: address.landmark || "",
-      city: address.city || "",
-      state: address.state || "",
-      country: address.country || "",
-      zipCode: address.zipCode || "",
-      isDefault: address.isDefault || false,
-    });
-
-    setEditedAddressId(address._id);
-    setIsEditing(true);
-    setShowCreateAddress(true);
-  };
-
-  const handleCancel = () => {
-    resetForm();
-    setShowCreateAddress(false);
   };
 
   const handleSetDefault = async (userId, addressId) => {
