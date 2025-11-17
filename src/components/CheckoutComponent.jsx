@@ -2,7 +2,8 @@ import { useAddressesContext } from "../context/Address.context";
 import { useUsersProfileContext } from "../context/User.context";
 import { useCartContext } from "../context/Cart.context";
 import { useProductContext } from "../context/Products.context";
-import { AiFillHome } from "react-icons/ai";
+import { AiFillHome, AiOutlineCheck } from "react-icons/ai";
+import { useOrderContext } from "../context/Order.context";
 
 export default function CheckoutComponent() {
   const {
@@ -41,14 +42,28 @@ export default function CheckoutComponent() {
 
   const { navigate } = useProductContext();
 
-  if (addressLoading || fetchAddressesLoading || usersLoading) {
+  const {
+    selectedAddressId,
+    selectedPaymentMethod,
+    handlePlaceOrder,
+    orderLoading,
+    showOrderSuccess,
+    closeOrderSuccess,
+    orderError,
+    onSelectAddressId,
+    onPaymentMethodChange,
+  } = useOrderContext();
+
+  if (addressLoading || fetchAddressesLoading || usersLoading || orderLoading) {
     return (
       <main className="container vh-100 d-flex flex-column justify-content-center align-items-center text-center">
         <div className="spinner-border text-danger" role="status">
           <span className="visually-hidden">Loading...</span>
         </div>
         <p className="mt-4 fs-4 fw-semibold">
-          Loading your checkout products...
+          {orderLoading
+            ? "Placing your order..."
+            : "Loading your checkout products..."}
         </p>
       </main>
     );
@@ -60,7 +75,59 @@ export default function CheckoutComponent() {
         <div className="alert alert-danger">
           An error occurred while loading your checkout product's data
         </div>
+
+        <button
+          className="btn btn-primary mt-3"
+          onClick={() => window.location.reload()}
+        >
+          Try Again
+        </button>
       </main>
+    );
+  }
+
+  if (showOrderSuccess) {
+    return (
+      <div
+        className="modal show d-block"
+        style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
+      >
+        <div className="modal-dialog modal-dialog-centered">
+          <div className="modal-content">
+            {/* <div className="modal-header border-0">
+              <h6 className="modal-title">
+                Placed Order Deatils
+              </h6>
+            </div> */}
+            
+            <div className="modal-body text-center mt-4">
+              <div className="mb-3">
+                <i
+                  className="fas fa-check-circle text-success"
+                  style={{ fontSize: "4rem" }}
+                ></i>
+              </div>
+
+              <span className="d-block  text-success fw-bold mb-3">Order Placed Successfully!</span>
+              <span className="d-block fw-semibold">Your order has been placed successfully.</span>
+              <span className="d-block fw-semibold">You will be redirected shortly...</span>
+            </div>
+
+            <div className="modal-footer border-0 justify-content-center">
+              <button
+                type="button"
+                className="btn btn-danger mb-3 mt-2"
+                onClick={() => {
+                  closeOrderSuccess();
+                  navigate("/orders");
+                }}
+              >
+                View Placed Order
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     );
   }
 
@@ -87,7 +154,7 @@ export default function CheckoutComponent() {
                   Delivery Address
                 </h4>
                 <button
-                  className="btn btn-sm text-white"
+                  className="btn btn-sm text-white fw-semibold"
                   onClick={() => {
                     resetForm();
                     setShowCreateAddress(!showCreateAddress);
@@ -290,31 +357,40 @@ export default function CheckoutComponent() {
                 <div className="row g-3">
                   {addresses?.map((address) => (
                     <div className="col-12" key={address._id}>
-                      <div className={`card border-0 shadow-sm`}>
+                      <div
+                        className={`card border-0 shadow-sm ${
+                          selectedAddressId === address._id
+                            ? "bord-primary"
+                            : ""
+                        }`}
+                        style={{
+                          cursor: "pointer",
+                          border:
+                            selectedAddressId === address._id
+                              ? "2px solid #007bff"
+                              : "1px solid #dee2e6",
+                        }}
+                        onClick={() => onSelectAddressId(address._id)}
+                      >
                         <div className="card-body">
                           <div className="d-flex justify-content-between align-items-start mb-2">
                             <h6 className="card-title mb-1">
                               {address.fullName || address?.userId?.name}
+                              {selectedAddressId === address._id && (
+                                <span className="badge bg-primary ms-2">
+                                  Selected
+                                </span>
+                              )}
                             </h6>
                             {address.isDefault && (
                               <span
                                 className="badge text-white"
-                                style={{ backgroundColor: "#f11c58ff" }}
+                                style={{ backgroundColor: "#f30a4cff" }}
                               >
                                 Default
                               </span>
                             )}
                           </div>
-
-                          <p className="card-text mb-2 text-muted small">
-                            <strong>Email: </strong>
-                            {address.userId.emailId}
-                          </p>
-
-                          <p className="card-text mb-2 text-muted small">
-                            <strong>Mobile: </strong>
-                            {address.userId.phoneNo}
-                          </p>
 
                           <p className="card-text mb-3">
                             <AiFillHome />{" "}
@@ -380,7 +456,9 @@ export default function CheckoutComponent() {
               <select
                 name="payment"
                 id="paymentMethod"
-                className="form-select"
+                value={selectedPaymentMethod}
+                onChange={(e) => onPaymentMethodChange(e.target.value)}
+                className="form-select mb-4"
                 style={{ borderRadius: "8px", padding: "10px" }}
                 required
               >
@@ -389,8 +467,18 @@ export default function CheckoutComponent() {
                 <option value="Debit Card">Debit Card</option>
                 <option value="UPI ID/QR Code">UPI ID/QR Code</option>
                 <option value="Net Banking">Net Banking</option>
-                <option value="Cash on Delivery (COD)">Cash on Delivery</option>
+                <option value="Cash on Delivery (COD)">
+                  Cash on Delivery "(COD)"
+                </option>
               </select>
+
+              {!selectedPaymentMethod && (
+                <small className="bg-success text-light py-2 rounded fw-semibold">
+                  <span className="p-3">
+                    Default Payment Method: Cash on Delivery
+                  </span>
+                </small>
+              )}
             </div>
           </div>
 
@@ -508,9 +596,15 @@ export default function CheckoutComponent() {
                 </div>
               </div>
 
+              {orderError && (
+                <div className="alert alert-danger mb-3" role="alert">
+                  {orderError}
+                </div>
+              )}
+
               <div className="d-grid gap-2">
                 <button
-                  onClick={() => navigate("/placeOrder")}
+                  onClick={handlePlaceOrder}
                   type="button"
                   className="btn text-white fw-semibold py-2"
                   style={{
@@ -519,8 +613,21 @@ export default function CheckoutComponent() {
                     border: "none",
                     fontSize: "1.1rem",
                   }}
+                  disabled={
+                    orderLoading || !addresses || addresses.length === 0
+                  }
                 >
-                  Place Order
+                  {orderLoading ? (
+                    <>
+                      <span
+                        className="spinner-border spinner-border-sm me-2"
+                        role="status"
+                      ></span>
+                      Placing Order...
+                    </>
+                  ) : (
+                    "Place Order"
+                  )}
                 </button>
               </div>
 

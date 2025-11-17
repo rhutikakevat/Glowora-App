@@ -9,6 +9,7 @@ import { WishlistsContextProvider } from "../context/Wishlists.context";
 import { CartContextProvider } from "../context/Cart.context";
 import { UsersProfileContextProvider } from "../context/User.context";
 import { AddressesContextProvider } from "../context/Address.context";
+import { OrderProvider } from "../context/Order.context";
 
 export default function Checkout() {
   return (
@@ -19,13 +20,15 @@ export default function Checkout() {
             <CartContextProvider>
               <UsersProfileContextProvider>
                 <AddressesContextProvider>
-                  <Header />
+                  <OrderProvider>
+                    <Header />
 
-                  <CheckoutComponent />
+                    <CheckoutComponent />
 
-                  <Footer />
+                    <Footer />
 
-                  <ToastContainer position="top-right" autoClose={3000} />
+                    <ToastContainer position="top-right" autoClose={3000} />
+                  </OrderProvider>
                 </AddressesContextProvider>
               </UsersProfileContextProvider>
             </CartContextProvider>

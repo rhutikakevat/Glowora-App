@@ -10,6 +10,7 @@ import { CartContextProvider } from "../context/Cart.context";
 import { UsersProfileContextProvider } from "../context/User.context";
 import { AddressesContextProvider } from "../context/Address.context";
 import OrdersComponent from "../components/OrdersComponent";
+import { OrderProvider } from "../context/Order.context";
 
 export default function Orders() {
   return (
@@ -20,13 +21,15 @@ export default function Orders() {
             <CartContextProvider>
               <UsersProfileContextProvider>
                 <AddressesContextProvider>
-                  <Header />
+                  {/* <OrderProvider> */}
+                    <Header />
 
-                  <OrdersComponent />
+                    <OrdersComponent />
 
-                  <Footer />
+                    <Footer />
 
-                  <ToastContainer position="top-right" autoClose={3000} />
+                    <ToastContainer position="top-right" autoClose={3000} />
+                  {/* </OrderProvider> */}
                 </AddressesContextProvider>
               </UsersProfileContextProvider>
             </CartContextProvider>

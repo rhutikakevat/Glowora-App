@@ -143,7 +143,7 @@ export const CartContextProvider = ({ children }) => {
 
       setCartError(error.message);
     } finally {
-      setCartLoading(null);
+      setCartLoading(false);
     }
   };
 
@@ -193,7 +193,7 @@ export const CartContextProvider = ({ children }) => {
       toast.error("An Error occurred while updating quantity in cart");
       setCartError(error.message);
     } finally {
-      setCartLoading(null);
+      setCartLoading(false);
     }
   };
 
@@ -227,6 +227,33 @@ export const CartContextProvider = ({ children }) => {
 
   const finalTotal = totalPrice - discount + tax + deliveryCharge;
 
+  const clearCart = async () => {
+    try {
+      setCartLoading(true);
+
+      const response = cart.map((product) =>
+        fetch(
+          `https://glowora-app-backend-api.vercel.app/api/cart/${product._id}`,
+          { method: "DELETE" }
+        )
+      );
+
+      await Promise.all(response);
+
+      setCart([]);
+
+      toast.success("Cart cleared successfully")
+    } catch (error) {
+      console.log("Error while clearing from Cart: ", error);
+
+      toast.error("Error while clearing from Cart");
+
+      setCartError(error.message);
+    } finally {
+      setCartLoading(false);
+    }
+  };
+
   return (
     <CartContext.Provider
       value={{
@@ -239,7 +266,12 @@ export const CartContextProvider = ({ children }) => {
         handleQuantityChangeCart,
         moveCartToWishlist,
         totalPriceOfItem,
-        finalTotal,totalPrice,discount,taxRate,deliveryCharge
+        finalTotal,
+        totalPrice,
+        discount,
+        taxRate,
+        deliveryCharge,
+        clearCart,
       }}
     >
       {children}

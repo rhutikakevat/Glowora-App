@@ -196,7 +196,7 @@ export default function ListingProductswithAllFilter() {
         <div className="spinner-border text-danger" role="status">
           <span className="visually-hidden">Loading...</span>
         </div>
-        <p className="mt-4 fs-4 fw-semibold">Please wait, Loading...</p>
+        <p className="mt-4 fs-4 fw-semibold">Please wait, Loading Products...</p>
       </main>
     );
   }

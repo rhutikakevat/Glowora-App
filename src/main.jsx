@@ -8,7 +8,6 @@ import WishlistProducts from "./pages/WishlistProducts.jsx";
 import CartProducts from "./pages/CartProducts.jsx";
 import UserProfile from "./pages/UserProfile.jsx";
 import Checkout from "./pages/Checkout.jsx";
-import PlaceOrder from "./pages/PlaceOrder.jsx";
 import Orders from "./pages/Orders.jsx";
 
 const routes = createBrowserRouter([
@@ -39,10 +38,6 @@ const routes = createBrowserRouter([
   {
     path: "/checkout",
     element: <Checkout />,
-  },
-  {
-    path: "/placeOrder",
-    element: <PlaceOrder />,
   },
   {
     path: "/orders",
