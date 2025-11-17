@@ -66,7 +66,7 @@ export default function MainContent() {
             id="mainCarousel"
             className="carousel slide"
             data-bs-ride="carousel"
-            data-bs-interval="2000"
+            data-bs-interval="3000"
           >
             <div className="carousel-inner rounded-4">
               {carouselImages.map((img, index) => (
