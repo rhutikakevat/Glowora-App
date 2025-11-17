@@ -133,7 +133,7 @@ export const AddressesContextProvider = ({ children }) => {
 
         setTimeout(() => {
           window.location.reload();
-        }, 5000);
+        }, 3000);
       }
 
       return result;

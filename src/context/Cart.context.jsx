@@ -99,6 +99,11 @@ export const CartContextProvider = ({ children }) => {
 
           if (postedCartData) {
             setCart((preValue) => [...preValue, postedCartData.data]);
+
+            setTimeout(() => {
+              window.location.reload();
+            }, 3000);
+
             toast.success("Product's data added to cart :)");
           }
         }
@@ -242,7 +247,7 @@ export const CartContextProvider = ({ children }) => {
 
       setCart([]);
 
-      toast.success("Cart cleared successfully")
+      toast.success("Cart cleared successfully");
     } catch (error) {
       console.log("Error while clearing from Cart: ", error);
 

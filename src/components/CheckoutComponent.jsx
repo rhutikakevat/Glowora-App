@@ -99,7 +99,7 @@ export default function CheckoutComponent() {
                 Placed Order Deatils
               </h6>
             </div> */}
-            
+
             <div className="modal-body text-center mt-4">
               <div className="mb-3">
                 <i
@@ -108,9 +108,15 @@ export default function CheckoutComponent() {
                 ></i>
               </div>
 
-              <span className="d-block  text-success fw-bold mb-3">Order Placed Successfully!</span>
-              <span className="d-block fw-semibold">Your order has been placed successfully.</span>
-              <span className="d-block fw-semibold">You will be redirected shortly...</span>
+              <span className="d-block  text-success fw-bold mb-3">
+                Order Placed Successfully!
+              </span>
+              <span className="d-block fw-semibold">
+                Your order has been placed successfully.
+              </span>
+              <span className="d-block fw-semibold">
+                You will be redirected shortly...
+              </span>
             </div>
 
             <div className="modal-footer border-0 justify-content-center">
@@ -131,6 +137,24 @@ export default function CheckoutComponent() {
     );
   }
 
+  if (!cart || cart.length === 0) {
+    return (
+      <main>
+        <div className="text-center py-5">
+          <strong className="d-block fs-5 mb-3">Your Cart is Empty!</strong>
+          <strong className="d-block mb-5">
+            For Placed order, We required cart products
+          </strong>
+          <button
+            className="btn btn-outline-danger"
+            onClick={() => navigate("/products")}
+          >
+            Continue Shopping
+          </button>
+        </div>
+      </main>
+    );
+  }
   return (
     <main className="container py-4 mb-5">
       <div className="py-2 mb-4">
