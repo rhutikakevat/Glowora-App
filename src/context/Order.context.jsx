@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { useCartContext } from "./Cart.context";
 import { useAddressesContext } from "./Address.context";
 import { useUsersProfileContext } from "./User.context";
+import useFetch from "../hooks/useFetch";
 
 const OrderContext = createContext();
 
@@ -30,6 +31,8 @@ export function OrderProvider({ children }) {
     "https://glowora-app-backend-api.vercel.app/api/ordered/products";
 
   const currentUser = usersData?.data?.users?.[0];
+
+  const { data: orders } = useFetch(apiURL);
 
   useEffect(() => {
     if (addresses && addresses.length > 0) {
@@ -150,8 +153,7 @@ export function OrderProvider({ children }) {
         addresses.find((address) => address.isDefault)?._id ||
         addresses[0]._id;
 
-      const finalPaymentMethod =
-        selectedPaymentMethod || "Cash on Delivery (COD)";
+      const finalPaymentMethod = selectedPaymentMethod;
 
       handlePlaceOrderInDatabase(finalAddressId, finalPaymentMethod);
     } catch (error) {
@@ -188,6 +190,7 @@ export function OrderProvider({ children }) {
         onPaymentMethodChange,
         selectedAddressId,
         selectedPaymentMethod,
+        orders,
       }}
     >
       {children}

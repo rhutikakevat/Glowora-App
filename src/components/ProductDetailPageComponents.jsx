@@ -138,7 +138,7 @@ export default function ProductDetailPageComponents() {
                       </button>
                       <button
                         onClick={() =>
-                          addToCart(productDetailsData?.data?.product?._id)
+                          addToCart(productDetailsData?.data?.product?._id,quantity)
                         }
                         className="btn btn-outline-danger mt-1 fw-semibold fs-6 btn-sm"
                         style={{

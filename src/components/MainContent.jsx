@@ -62,52 +62,64 @@ export default function MainContent() {
         {/* Carousel Section */}
 
         <section className="mb-5 mt-3">
-          <div
-            id="mainCarousel"
-            className="carousel slide"
-            data-bs-ride="carousel"
-            data-bs-interval="2000"
-          >
-            <div className="carousel-inner rounded-4">
-              {carouselImages.map((img, index) => (
-                <div
-                  className={`carousel-item ${index === 0 ? "active" : ""}`}
-                  key={index}
-                >
-                  <img
-                    src={img}
-                    className="d-block w-100"
-                    alt={`Promo ${index + 1}`}
-                  />
-                </div>
-              ))}
+          {carouselImages?.length > 0 ? (
+            <div
+              id="mainCarousel"
+              className="carousel slide"
+              data-bs-ride="carousel"
+              data-bs-interval="3000"
+            >
+              <div className="carousel-inner rounded-4">
+                {carouselImages.map((img, index) => (
+                  <div
+                    className={`carousel-item ${index === 0 ? "active" : ""}`}
+                    key={index}
+                  >
+                    <img
+                      src={img}
+                      className="d-block w-100"
+                      alt={`Promo ${index + 1}`}
+                    />
+                  </div>
+                ))}
+              </div>
+              <button
+                className="carousel-control-prev"
+                type="button"
+                data-bs-target="#mainCarousel"
+                data-bs-slide="prev"
+              >
+                <span
+                  className="carousel-control-prev-icon"
+                  aria-hidden="true"
+                ></span>
+                <span className="visually-hidden">Previous</span>
+              </button>
+              <button
+                className="carousel-control-next"
+                type="button"
+                data-bs-target="#mainCarousel"
+                data-bs-slide="next"
+              >
+                <span
+                  className="carousel-control-next-icon"
+                  aria-hidden="true"
+                ></span>
+                <span className="visually-hidden">Next</span>
+              </button>
             </div>
-            <button
-              className="carousel-control-prev"
-              type="button"
-              data-bs-target="#mainCarousel"
-              data-bs-slide="prev"
+          ) : (
+            <div
+              className="container vh-100 d-flex 
+      flex-column justify-content-center align-items-center text-center"
             >
-              <span
-                className="carousel-control-prev-icon"
-                aria-hidden="true"
-              ></span>
-              <span className="visually-hidden">Previous</span>
-            </button>
-            <button
-              className="carousel-control-next"
-              type="button"
-              data-bs-target="#mainCarousel"
-              data-bs-slide="next"
-            >
-              <span
-                className="carousel-control-next-icon"
-                aria-hidden="true"
-              ></span>
-              <span className="visually-hidden">Next</span>
-            </button>
-          </div>
+              <div className="spinner-border text-danger" role="status">
+                <span className="visually-hidden">Loading...</span>
+              </div>
+            </div>
+          )}
         </section>
+        
 
         {/* Featured Categories Section */}
 
@@ -141,6 +153,7 @@ export default function MainContent() {
                         style={{ objectFit: "contain" }}
                       />
                     </div>
+                    
                     <div className="card-body text-center p-1">
                       <h6
                         className="card-title mb-0 fw-semibold"

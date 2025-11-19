@@ -9,6 +9,8 @@ import CartProducts from "./pages/CartProducts.jsx";
 import UserProfile from "./pages/UserProfile.jsx";
 import Checkout from "./pages/Checkout.jsx";
 import Orders from "./pages/Orders.jsx";
+import AboutPage from "./pages/AboutUs.jsx";
+import ContactPage from "./pages/Contact.jsx";
 
 const routes = createBrowserRouter([
   {
@@ -43,6 +45,14 @@ const routes = createBrowserRouter([
     path: "/orders",
     element: <Orders />,
   },
+  {
+    path: "/about",
+    element: <AboutPage />,
+  },
+  {
+    path:"/contact",
+    element:<ContactPage/>
+  }
 ]);
 
 createRoot(document.getElementById("root")).render(

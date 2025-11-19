@@ -21,7 +21,7 @@ export default function Orders() {
             <CartContextProvider>
               <UsersProfileContextProvider>
                 <AddressesContextProvider>
-                  {/* <OrderProvider> */}
+                  <OrderProvider>
                     <Header />
 
                     <OrdersComponent />
@@ -29,7 +29,7 @@ export default function Orders() {
                     <Footer />
 
                     <ToastContainer position="top-right" autoClose={3000} />
-                  {/* </OrderProvider> */}
+                  </OrderProvider>
                 </AddressesContextProvider>
               </UsersProfileContextProvider>
             </CartContextProvider>

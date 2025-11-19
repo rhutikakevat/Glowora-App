@@ -51,7 +51,7 @@ export const CartContextProvider = ({ children }) => {
     loadCart();
   }, []);
 
-  const addToCart = async (productId) => {
+  const addToCart = async (productId,quantity=1) => {
     try {
       setCartLoading(true);
 
@@ -88,7 +88,7 @@ export const CartContextProvider = ({ children }) => {
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ productId }),
+            body: JSON.stringify({ productId,quantity }),
           }
         );
 

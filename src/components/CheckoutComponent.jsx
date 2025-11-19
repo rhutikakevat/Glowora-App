@@ -2,7 +2,7 @@ import { useAddressesContext } from "../context/Address.context";
 import { useUsersProfileContext } from "../context/User.context";
 import { useCartContext } from "../context/Cart.context";
 import { useProductContext } from "../context/Products.context";
-import { AiFillHome, AiOutlineCheck } from "react-icons/ai";
+import { AiFillHome } from "react-icons/ai";
 import { useOrderContext } from "../context/Order.context";
 
 export default function CheckoutComponent() {
@@ -141,7 +141,7 @@ export default function CheckoutComponent() {
     return (
       <main>
         <div className="text-center py-5">
-          <strong className="d-block fs-5 mb-3">Your Cart is Empty!</strong>
+          <strong className="d-block fs-5 mb-3">There is no checkout's product</strong>
           <strong className="d-block mb-5">
             For Placed order, We required cart products
           </strong>
@@ -482,7 +482,7 @@ export default function CheckoutComponent() {
                 id="paymentMethod"
                 value={selectedPaymentMethod}
                 onChange={(e) => onPaymentMethodChange(e.target.value)}
-                className="form-select mb-4"
+                className="form-select mb-2"
                 style={{ borderRadius: "8px", padding: "10px" }}
                 required
               >
@@ -495,14 +495,6 @@ export default function CheckoutComponent() {
                   Cash on Delivery "(COD)"
                 </option>
               </select>
-
-              {!selectedPaymentMethod && (
-                <small className="bg-success text-light py-2 rounded fw-semibold">
-                  <span className="p-3">
-                    Default Payment Method: Cash on Delivery
-                  </span>
-                </small>
-              )}
             </div>
           </div>
 
@@ -638,7 +630,10 @@ export default function CheckoutComponent() {
                     fontSize: "1.1rem",
                   }}
                   disabled={
-                    orderLoading || !addresses || addresses.length === 0
+                    orderLoading ||
+                    !addresses ||
+                    addresses.length === 0 ||
+                    !selectedPaymentMethod
                   }
                 >
                   {orderLoading ? (

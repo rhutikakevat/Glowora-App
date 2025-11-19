@@ -8,6 +8,7 @@ import { WishlistsContextProvider } from "../context/Wishlists.context";
 import { CartContextProvider } from "../context/Cart.context";
 import UserProfileComponent from "../components/UserProfileComponent";
 import { UsersProfileContextProvider } from "../context/User.context";
+import { AddressesContextProvider } from "../context/Address.context";
 
 export default function UserProfile() {
   return (
@@ -17,13 +18,15 @@ export default function UserProfile() {
           <WishlistsContextProvider>
             <CartContextProvider>
               <UsersProfileContextProvider>
-                <Header />
+                <AddressesContextProvider>
+                  <Header />
 
-                <UserProfileComponent />
+                  <UserProfileComponent />
 
-                <Footer />
+                  <Footer />
 
-                <ToastContainer position="top-right" autoClose={3000} />
+                  <ToastContainer position="top-right" autoClose={3000} />
+                </AddressesContextProvider>
               </UsersProfileContextProvider>
             </CartContextProvider>
           </WishlistsContextProvider>
