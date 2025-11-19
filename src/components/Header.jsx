@@ -235,15 +235,7 @@ export default function Header() {
                   <IoInformationCircle size={20} className="me-1" />
                   About Us
                 </NavLink>
-              </li>
-
-              <li className="nav-item ms-3 me-3">
-                <NavLink to="/contact" className="nav-link" aria-current="page">
-                  <PiPhoneCallFill size={20} className="me-1" />
-                  Contact Us
-                </NavLink>
-              </li>
-
+              </li>    
 
               <li className="nav-item ms-3 me-3">
                 <NavLink to="/wishlist" className="nav-link position-relative">
@@ -266,6 +258,13 @@ export default function Header() {
                       {cartCount}
                     </span>
                   )}
+                </NavLink>
+              </li>
+
+              <li className="nav-item ms-3 me-3">
+                <NavLink to="/contact" className="nav-link" aria-current="page">
+                  <PiPhoneCallFill size={20} className="me-1" />
+                  Contact Us
                 </NavLink>
               </li>
 
