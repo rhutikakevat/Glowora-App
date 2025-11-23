@@ -125,7 +125,7 @@ export function OrderProvider({ children }) {
         shippingAddress: shippingAddressId,
       };
 
-      console.log("Place Order: \n", orderData);
+      // console.log("Place Order: \n", orderData);
 
       const placeOrder = await createOrderData(orderData);
 

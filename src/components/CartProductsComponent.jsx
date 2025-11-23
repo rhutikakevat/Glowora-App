@@ -137,7 +137,7 @@ export default function CartProductsComponent() {
                             </span>
 
                             <button
-                              className="text-muted btn btn-link p-0 mt-3"
+                              className="text-muted d-block btn btn-link p-0 mt-3"
                               onClick={() =>
                                 moveCartToWishlist(item?.productId?._id)
                               }
@@ -146,7 +146,7 @@ export default function CartProductsComponent() {
                             </button>
 
                             <button
-                              className="text-muted btn btn-link p-0 mt-3 ms-4"
+                              className="text-muted btn btn-link p-0"
                               onClick={() => removeFromCart(item._id)}
                             >
                               Remove
@@ -156,7 +156,10 @@ export default function CartProductsComponent() {
                       </div>
 
                       <div className="col-12 col-md-4 mb-3 mb-md-0">
-                        <div className="d-flex justify-content-center justify-content-md-start">
+                        <div className="d-flex justify-content-start">
+                          <span className="me-3 py-2 d-md-none fw-semibold">
+                            Quantity:{" "}
+                          </span>
                           <div
                             className="input-group"
                             style={{ width: "135px" }}
@@ -196,10 +199,10 @@ export default function CartProductsComponent() {
                         </div>
                       </div>
 
-                      <div className="col-2 col-md-2">
-                        <div className="text-center text-md-center">
+                      <div className="col-12 col-md-2">
+                        <div className="text-md-center">
                           <span className="text-danger fs-4 fw-semibold">
-                            ₹{totalPriceOfItem(item).toFixed(2)}
+                          Total Price:  ₹{totalPriceOfItem(item).toFixed(2)}
                           </span>
                         </div>
                       </div>

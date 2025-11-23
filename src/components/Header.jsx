@@ -9,7 +9,7 @@ import {
   FaSun,
 } from "react-icons/fa";
 import { IoInformationCircle } from "react-icons/io5";
-import { PiPhoneCallFill } from "react-icons/pi"
+import { PiPhoneCallFill } from "react-icons/pi";
 import { GiCardboardBoxClosed } from "react-icons/gi";
 import { useWishlistsContext } from "../context/Wishlists.context";
 import { useCartContext } from "../context/Cart.context";
@@ -26,9 +26,6 @@ export default function Header() {
   const [searchResults, setSearchResults] = useState([]);
   const [showResults, setShowResults] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
-
-  // console.log("p", products?.data?.products);
-  // console.log("c", categories?.data?.categories);
 
   // Search function
   const handleSearch = (term) => {
@@ -107,7 +104,7 @@ export default function Header() {
         } shadow mb-3 py-2`}
       >
         <div className="container-fluid">
-          <NavLink to="/" className="navbar-brand me-4 me-lg-5 ms-3 ">
+          <NavLink to="/" className="navbar-brand me-4 me-lg-5 ms-3 mb-2">
             <img
               src={logo}
               className="logo img-fluid rounded"
@@ -233,39 +230,54 @@ export default function Header() {
               <li className="nav-item ms-3 me-3">
                 <NavLink to="/about" className="nav-link" aria-current="page">
                   <IoInformationCircle size={20} className="me-1" />
-                  About Us
+                  About
+                </NavLink>
+              </li>
+
+              {/* Updated Wishlist with mobile-optimized badge */}
+              <li className="nav-item ms-3 me-3">
+                <NavLink to="/wishlist" className="nav-link position-relative">
+                  <FaHeart size={18} className="me-1" />
+                  Wishlist
+                  {wishlistCount > 0 && (
+                    <>
+                      {/* Badge for desktop (positioned top-right) */}
+                      <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger d-none d-lg-inline">
+                        {wishlistCount}
+                      </span>
+                      {/* Badge for mobile (inline with text) */}
+                      <span className="badge rounded-pill bg-danger ms-1 d-inline d-lg-none">
+                        {wishlistCount}
+                      </span>
+                    </>
+                  )}
+                </NavLink>
+              </li>
+
+              {/* Updated Cart with mobile-optimized badge */}
+              <li className="nav-item ms-3 me-3">
+                <NavLink to="/cart" className="nav-link position-relative">
+                  <FaShoppingCart size={18} className="me-1" />
+                  Cart
+                  {cartCount > 0 && (
+                    <>
+                      {/* Badge for desktop (positioned top-right) */}
+                      <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger d-none d-lg-inline">
+                        {cartCount}
+                      </span>
+                      {/* Badge for mobile (inline with text) */}
+                      <span className="badge rounded-pill bg-danger ms-1 d-inline d-lg-none">
+                        {cartCount}
+                      </span>
+                    </>
+                  )}
                 </NavLink>
               </li>
 
               <li className="nav-item ms-3 me-3">
                 <NavLink to="/contact" className="nav-link" aria-current="page">
                   <PiPhoneCallFill size={20} className="me-1" />
-                  Contact Us
-                </NavLink>
-              </li>
-
-
-              <li className="nav-item ms-3 me-3">
-                <NavLink to="/wishlist" className="nav-link position-relative">
-                  <FaHeart size={18} className="me-1" />
-                  Wishlist
-                  {wishlistCount > 0 && (
-                    <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                      {wishlistCount}
-                    </span>
-                  )}
-                </NavLink>
-              </li>
-
-              <li className="nav-item ms-3 me-3">
-                <NavLink to="/cart" className="nav-link position-relative">
-                  <FaShoppingCart size={18} className="me-1" />
-                  Cart
-                  {cartCount > 0 && (
-                    <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                      {cartCount}
-                    </span>
-                  )}
+                  Contact
                 </NavLink>
               </li>
 

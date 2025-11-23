@@ -51,7 +51,6 @@ export const ProductContextProvider = ({ children }) => {
     products?.data?.products.filter((product) => product.isFeatured) || [];
 
   const carouselImages = [
-    
     "https://cmsimages.ssbeauty.in/Makeup_multibrand_lifestyle1_HP_carousel_web_3x_a8bf2c5640.jpg",
     "https://cmsimages.ssbeauty.in/Luxuryskincare_top_carousel_web_1_5381678edb/Luxuryskincare_top_carousel_web_1_5381678edb.jpg",
     "https://cmsimages.ssbeauty.in/Fragrance_top_carousel_web_1_905ec49149/Fragrance_top_carousel_web_1_905ec49149.jpg",
@@ -183,10 +182,6 @@ export const ProductContextProvider = ({ children }) => {
     }
   };
 
-  const handleBuyNow = () => {
-    // Logic inplement
-  };
-
   return (
     <ProductContext.Provider
       value={{
@@ -207,7 +202,6 @@ export const ProductContextProvider = ({ children }) => {
         productDetailsloading,
         ProductDetailsError,
         handleQuantityChange,
-        handleBuyNow,
         quantity,
         setQuantity,
         filterFeaturedProducts,

@@ -9,7 +9,6 @@ export default function ProductDetailPageComponents() {
     productDetailsloading,
     ProductDetailsError,
     handleQuantityChange,
-    handleBuyNow,
     quantity,
     setQuantity,
   } = useProductContext();
@@ -17,7 +16,7 @@ export default function ProductDetailPageComponents() {
   const { wishlistLoading, isWishlisted, wishlistError, wishlistHandler } =
     useWishlistsContext();
 
-  const { addToCart } = useCartContext();
+  const { addToCart, handleBuyNow } = useCartContext();
 
   return (
     <>
@@ -125,7 +124,12 @@ export default function ProductDetailPageComponents() {
 
                     <div className="d-grid gap-2">
                       <button
-                        onClick={handleBuyNow}
+                        onClick={() =>
+                          handleBuyNow(
+                            productDetailsData?.data?.product?._id,
+                            quantity
+                          )
+                        }
                         className="btn mt-3 fw-semibold fs-6 btn-sm"
                         style={{
                           backgroundColor: "#4452efff",
@@ -136,9 +140,13 @@ export default function ProductDetailPageComponents() {
                       >
                         Buy Now
                       </button>
+
                       <button
                         onClick={() =>
-                          addToCart(productDetailsData?.data?.product?._id,quantity)
+                          addToCart(
+                            productDetailsData?.data?.product?._id,
+                            quantity
+                          )
                         }
                         className="btn btn-outline-danger mt-1 fw-semibold fs-6 btn-sm"
                         style={{

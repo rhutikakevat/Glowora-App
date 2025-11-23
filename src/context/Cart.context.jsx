@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { useWishlistsContext } from "./Wishlists.context.jsx";
 import { toast } from "react-toastify";
+import { useProductContext } from "./Products.context.jsx";
 
 const CartContext = createContext();
 
@@ -20,6 +21,7 @@ export const CartContextProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
 
   const { isWishlisted, addToWishlist } = useWishlistsContext();
+  const { navigate } = useProductContext();
 
   useEffect(() => {
     const loadCart = async () => {
@@ -51,7 +53,7 @@ export const CartContextProvider = ({ children }) => {
     loadCart();
   }, []);
 
-  const addToCart = async (productId,quantity=1) => {
+  const addToCart = async (productId, quantity = 1) => {
     try {
       setCartLoading(true);
 
@@ -88,7 +90,7 @@ export const CartContextProvider = ({ children }) => {
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ productId,quantity }),
+            body: JSON.stringify({ productId, quantity }),
           }
         );
 
@@ -102,7 +104,7 @@ export const CartContextProvider = ({ children }) => {
 
             setTimeout(() => {
               window.location.reload();
-            }, 3000);
+            }, 2000);
 
             toast.success("Product's data added to cart :)");
           }
@@ -116,6 +118,11 @@ export const CartContextProvider = ({ children }) => {
     } finally {
       setCartLoading(false);
     }
+  };
+
+  const handleBuyNow = async (productId, quantity) => {
+    await addToCart(productId, quantity);
+    navigate("/checkout");
   };
 
   const removeFromCart = async (productId) => {
@@ -266,6 +273,7 @@ export const CartContextProvider = ({ children }) => {
         cartError,
         cartCount,
         addToCart,
+        handleBuyNow,
         removeFromCart,
         cartLoading,
         handleQuantityChangeCart,
