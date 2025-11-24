@@ -158,10 +158,14 @@ export default function CartProductsComponent() {
 
                       <div className="col-12 col-md-4 mb-4 mb-md-0">
                         <div className="d-flex justify-content-start">
+<<<<<<< HEAD
                           <span
                             className="me-2 py-2 d-md-none fw-semibold"
                             style={{ marginInlineStart: "158px" }}
                           >
+=======
+                          <span className="me-2 py-2 d-md-none fw-semibold">
+>>>>>>> 04d49970f7dabf3794a4ac9ed111d05b3839cd7b
                             Quantity:{" "}
                           </span>
 
