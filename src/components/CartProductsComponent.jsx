@@ -157,7 +157,7 @@ export default function CartProductsComponent() {
 
                       <div className="col-12 col-md-4 mb-3 mb-md-0">
                         <div className="d-flex justify-content-start">
-                          <span className="me-3 py-2 d-md-none fw-semibold">
+                          <span className="me-2 py-2 d-md-none fw-semibold">
                             Quantity:{" "}
                           </span>
                           <div
