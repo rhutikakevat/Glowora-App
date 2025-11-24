@@ -272,15 +272,14 @@ export default function Header() {
                     </>
                   )}
                 </NavLink>
-<<<<<<< HEAD
               </li>
 
               <li className="nav-item ms-3 me-3">
                 <NavLink to="/contact" className="nav-link" aria-current="page">
                   <PiPhoneCallFill size={20} className="me-1" />
                   Contact
-=======
-              </li>    
+                </NavLink>
+              </li>
 
               <li className="nav-item ms-3 me-3">
                 <NavLink to="/wishlist" className="nav-link position-relative">
@@ -303,7 +302,6 @@ export default function Header() {
                       {cartCount}
                     </span>
                   )}
->>>>>>> b6a235d6fe10da0c0c0eb6bcbf14848d0fbecbfd
                 </NavLink>
               </li>
 
