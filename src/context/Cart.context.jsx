@@ -18,6 +18,7 @@ export const useCartContext = () => {
 export const CartContextProvider = ({ children }) => {
   const [cartLoading, setCartLoading] = useState(null);
   const [cartError, setCartError] = useState(null);
+  const [quantityLoadingId, setQuantityLoadingId] = useState(null);
   const [cart, setCart] = useState([]);
 
   const { isWishlisted, addToWishlist } = useWishlistsContext();
@@ -169,7 +170,7 @@ export const CartContextProvider = ({ children }) => {
         return toast.info("Quantity cannot be less than 1");
       }
 
-      setCartLoading(cartProductId);
+      setQuantityLoadingId(cartProductId);
 
       const response = await fetch(
         `https://glowora-app-backend-api.vercel.app/api/cart/product/${cartProductId}`,
@@ -205,7 +206,7 @@ export const CartContextProvider = ({ children }) => {
       toast.error("An Error occurred while updating quantity in cart");
       setCartError(error.message);
     } finally {
-      setCartLoading(false);
+      setQuantityLoadingId(null);
     }
   };
 
@@ -283,6 +284,7 @@ export const CartContextProvider = ({ children }) => {
         totalPrice,
         discount,
         taxRate,
+        quantityLoadingId,
         deliveryCharge,
         clearCart,
       }}

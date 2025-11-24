@@ -15,6 +15,7 @@ export default function CartProductsComponent() {
     totalPrice,
     discount,
     taxRate,
+    quantityLoadingId,
     deliveryCharge,
   } = useCartContext();
 
@@ -155,11 +156,15 @@ export default function CartProductsComponent() {
                         </div>
                       </div>
 
-                      <div className="col-12 col-md-4 mb-3 mb-md-0">
+                      <div className="col-12 col-md-4 mb-4 mb-md-0">
                         <div className="d-flex justify-content-start">
-                          <span className="me-3 py-2 d-md-none fw-semibold">
+                          <span
+                            className="me-2 py-2 d-md-none fw-semibold"
+                            style={{ marginInlineStart: "158px" }}
+                          >
                             Quantity:{" "}
                           </span>
+
                           <div
                             className="input-group"
                             style={{ width: "135px" }}
@@ -167,7 +172,10 @@ export default function CartProductsComponent() {
                             <button
                               className="btn btn-outline-dark"
                               type="button"
-                              disabled={item?.quantity < 1}
+                              disabled={
+                                item?.quantity < 1 ||
+                                quantityLoadingId === item?._id
+                              }
                               onClick={() =>
                                 handleQuantityChangeCart(item._id, -1)
                               }
@@ -200,9 +208,15 @@ export default function CartProductsComponent() {
                       </div>
 
                       <div className="col-12 col-md-2">
-                        <div className="text-md-center">
+                        <div className="text-start text-md-center">
                           <span className="text-danger fs-4 fw-semibold">
-                          Total Price:  ₹{totalPriceOfItem(item).toFixed(2)}
+                            <smal
+                              className="d-md-none"
+                              style={{ marginInlineStart: "158px" }}
+                            >
+                              Total Price:{" "}
+                            </smal>
+                            ₹{totalPriceOfItem(item).toFixed(2)}
                           </span>
                         </div>
                       </div>
