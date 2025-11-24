@@ -280,7 +280,7 @@ export default function Header() {
                   Contact
                 </NavLink>
               </li>
-
+{/* 
               <li className="nav-item ms-3 me-3">
                 <NavLink to="/wishlist" className="nav-link position-relative">
                   <FaHeart size={18} className="me-1" />
@@ -310,7 +310,7 @@ export default function Header() {
                   <PiPhoneCallFill size={20} className="me-1" />
                   Contact Us
                 </NavLink>
-              </li>
+              </li> */}
 
               <li className="nav-item ms-3 me-4">
                 <NavLink to="/profile" className="nav-link">
