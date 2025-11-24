@@ -160,7 +160,7 @@ export default function CartProductsComponent() {
                         <div className="d-flex justify-content-start">
                           <span
                             className="me-2 py-2 d-md-none fw-semibold"
-                            style={{ marginInlineStart: "158px" }}
+                            style={{ marginInlineStart: "118px" }}
                           >
                             Quantity:{" "}
                           </span>
@@ -212,7 +212,7 @@ export default function CartProductsComponent() {
                           <span className="text-danger fs-4 fw-semibold">
                             <smal
                               className="d-md-none"
-                              style={{ marginInlineStart: "158px" }}
+                              style={{ marginInlineStart: "118px" }}
                             >
                               Total Price:{" "}
                             </smal>
