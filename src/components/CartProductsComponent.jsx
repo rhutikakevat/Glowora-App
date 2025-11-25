@@ -99,70 +99,178 @@ export default function CartProductsComponent() {
                   </div>
 
                   {cart.map((item) => (
-                    <div
-                      className="row border-bottom py-3 align-items-center"
-                      key={item._id}
-                    >
-                      <div className="col-md-6 col-12 mb-3 mb-md-0">
-                        <div className="row align-items-center">
-                          <div className="col-4 col-sm-3 d-flex justify-content-center">
-                            <img
-                              onClick={() =>
-                                navigate(`/products/${item.productId._id}`)
-                              }
-                              src={item?.productId?.profileImage}
-                              alt={item?.productId?.name}
-                              className="img-fluid rounded"
-                              style={{
-                                width: "100px",
-                                height: "80px",
-                                objectFit: "cover",
-                                cursor: "pointer",
-                              }}
-                            />
-                          </div>
+                    // <div
+                    //   className="row border-bottom py-3"
+                    //   key={item._id}
+                    // >
+                    //   <div className="col-md-6 col-12 mb-3 mb-md-0 text-center">
+                    //     {/* <div className="row align-items-center"> */}
+                    //       {/* <div className="col-4 col-sm-3 d-flex justify-content-center"> */}
+                    //         <img
+                    //           onClick={() =>
+                    //             navigate(`/products/${item.productId._id}`)
+                    //           }
+                    //           src={item?.productId?.profileImage}
+                    //           alt={item?.productId?.name}
+                    //           className="img-fluid rounded"
+                    //           style={{
+                    //             width: "100px",
+                    //             height: "80px",
+                    //             objectFit: "cover",
+                    //             cursor: "pointer",
+                    //           }}
+                    //         />
+                    //       </div>
 
-                          <div className="col-8 col-sm-9">
-                            <h6
-                              className="mb-1 fs-6 fs-sm-5"
-                              onClick={() =>
-                                navigate(`/products/${item.productId._id}`)
-                              }
-                              style={{ cursor: "pointer" }}
-                            >
-                              {item?.productId?.name}
-                            </h6>
+                    //       <div className="col-8 col-12 mb-3 mb-md-0">
+                    //         <h6
+                    //           className="mb-1 fs-6 fs-sm-5"
+                    //           onClick={() =>
+                    //             navigate(`/products/${item.productId._id}`)
+                    //           }
+                    //           style={{ cursor: "pointer" }}
+                    //         >
+                    //           {item?.productId?.name}
+                    //         </h6>
 
-                            <span className="text-danger d-block fw-semibold">
-                              Price: ₹{item?.productId?.price} per item
-                            </span>
+                    //         <span className="text-danger d-block fw-semibold">
+                    //           Price: ₹{item?.productId?.price} per item
+                    //         </span>
 
-                            <button
-                              className="text-muted d-block btn btn-link p-0 mt-3"
-                              onClick={() =>
-                                moveCartToWishlist(item?.productId?._id)
-                              }
-                            >
-                              Move to Wishlist
-                            </button>
+                    //         <button
+                    //           className="text-muted d-block btn btn-link p-0 mt-3"
+                    //           onClick={() =>
+                    //             moveCartToWishlist(item?.productId?._id)
+                    //           }
+                    //         >
+                    //           Move to Wishlist
+                    //         </button>
 
-                            <button
-                              className="text-muted btn btn-link p-0"
-                              onClick={() => removeFromCart(item._id)}
-                            >
-                              Remove
-                            </button>
-                          </div>
-                        </div>
+                    //         <button
+                    //           className="text-muted btn btn-link p-0"
+                    //           onClick={() => removeFromCart(item._id)}
+                    //         >
+                    //           Remove
+                    //         </button>
+                    //       </div>
+                    //     {/* </div> */}
+                    //   {/* </div> */}
+
+                    //   <div className="col-12 col-md-4 mb-4 mb-md-0">
+                    //     <div className="d-flex align-items-center gap-2">
+                    //       <span className="d-md-none fw-semibold">
+                    //         Quantity:{" "}
+                    //       </span>
+
+                    //       <div
+                    //         className="input-group"
+                    //         style={{ width: "135px" }}
+                    //       >
+                    //         <button
+                    //           className="btn btn-outline-dark"
+                    //           type="button"
+                    //           disabled={
+                    //             item?.quantity < 1 ||
+                    //             quantityLoadingId === item?._id
+                    //           }
+                    //           onClick={() =>
+                    //             handleQuantityChangeCart(item._id, -1)
+                    //           }
+                    //         >
+                    //           -
+                    //         </button>
+                    //         <input
+                    //           type="number"
+                    //           className="form-control text-center"
+                    //           value={item?.quantity}
+                    //           min={1}
+                    //           disabled={item?.quantity === 1}
+                    //           max={item?.productId?.stock}
+                    //           style={{
+                    //             borderColor: "black",
+                    //           }}
+                    //           onChange={(e) => e.target.value}
+                    //         />
+                    //         <button
+                    //           className="btn btn-outline-dark"
+                    //           type="button"
+                    //           onClick={() =>
+                    //             handleQuantityChangeCart(item._id, 1)
+                    //           }
+                    //         >
+                    //           +
+                    //         </button>
+                    //       </div>
+                    //     </div>
+                    //   </div>
+
+                    //   <div className="col-12 col-md-2 mt-2 mt-md-0">
+                    //     <div className="text-start text-md-center">
+                    //       <span className="text-danger fs-4 fw-semibold">
+                    //         <small className="d-md-none">Total Price: </small>₹
+                    //         {totalPriceOfItem(item).toFixed(2)}
+                    //       </span>
+                    //     </div>
+                    //   </div>
+                    // </div>
+
+                    <div className="row border-bottom py-3" key={item._id}>
+                      {/* IMAGE FIRST ON MOBILE */}
+                      <div className="col-12 col-md-3 mb-3 mb-md-0 text-center">
+                        <img
+                          src={item?.productId?.profileImage}
+                          alt={item?.productId?.name}
+                          onClick={() =>
+                            navigate(`/products/${item.productId._id}`)
+                          }
+                          className="img-fluid rounded"
+                          style={{
+                            width: "120px",
+                            height: "100px",
+                            objectFit: "cover",
+                            cursor: "pointer",
+                          }}
+                        />
                       </div>
 
-                      <div className="col-12 col-md-4 mb-4 mb-md-0">
-                        <div className="d-flex justify-content-start">
-                          <span
-                            className="me-2 py-2 d-md-none fw-semibold"
-                            style={{ marginInlineStart: "118px" }}
-                          >
-                            Quantity:{" "}
+                      {/* DETAILS BELOW IMAGE ON MOBILE, RIGHT OF IMAGE ON DESKTOP */}
+                      <div className="col-12 col-md-5 mb-3 mb-md-0">
+                        <h6
+                          className="mb-1"
+                          onClick={() =>
+                            navigate(`/products/${item.productId._id}`)
+                          }
+                          style={{ cursor: "pointer" }}
+                        >
+                          {item?.productId?.name}
+                        </h6>
+
+                        <span className="text-danger d-block fw-semibold">
+                          Price: ₹{item?.productId?.price} per item
+                        </span>
+
+                        <button
+                          className="btn btn-link p-0 d-block mt-2 text-muted"
+                          onClick={() =>
+                            moveCartToWishlist(item?.productId?._id)
+                          }
+                        >
+                          Move to Wishlist
+                        </button>
+
+                        <button
+                          className="btn btn-link p-0 text-muted"
+                          onClick={() => removeFromCart(item._id)}
+                        >
+                          Remove
+                        </button>
+                      </div>
+
+                      {/* QUANTITY */}
+                      <div className="col-12 col-md-3 mb-3 mb-md-0">
+                        <div className="d-flex align-items-center gap-2">
+                          <span className="fw-semibold d-md-none">
+                            Quantity:
                           </span>
 
                           <div
@@ -171,10 +279,9 @@ export default function CartProductsComponent() {
                           >
                             <button
                               className="btn btn-outline-dark"
-                              type="button"
                               disabled={
-                                item?.quantity < 1 ||
-                                quantityLoadingId === item?._id
+                                item.quantity < 1 ||
+                                quantityLoadingId === item._id
                               }
                               onClick={() =>
                                 handleQuantityChangeCart(item._id, -1)
@@ -182,21 +289,17 @@ export default function CartProductsComponent() {
                             >
                               -
                             </button>
+
                             <input
                               type="number"
                               className="form-control text-center"
-                              value={item?.quantity}
-                              min={1}
-                              disabled={item?.quantity === 1}
-                              max={item?.productId?.stock}
-                              style={{
-                                borderColor: "black",
-                              }}
-                              onChange={(e) => e.target.value}
+                              value={item.quantity}
+                              disabled={item.quantity === 1}
+                              readOnly
                             />
+
                             <button
                               className="btn btn-outline-dark"
-                              type="button"
                               onClick={() =>
                                 handleQuantityChangeCart(item._id, 1)
                               }
@@ -207,18 +310,15 @@ export default function CartProductsComponent() {
                         </div>
                       </div>
 
-                      <div className="col-12 col-md-2">
-                        <div className="text-start text-md-center">
-                          <span className="text-danger fs-4 fw-semibold">
-                            <smal
-                              className="d-md-none"
-                              style={{ marginInlineStart: "118px" }}
-                            >
-                              Total Price:{" "}
-                            </smal>
-                            ₹{totalPriceOfItem(item).toFixed(2)}
-                          </span>
-                        </div>
+                      {/* TOTAL PRICE */}
+                      <div className="col-12 col-md-1 text-start text-md-center mt-2 mt-md-0">
+                        <small className="d-md-none fw-semibold">
+                          Total Price:{" "}
+                        </small>
+
+                        <span className="text-danger fs-5 fw-semibold">
+                          ₹{totalPriceOfItem(item).toFixed(2)}
+                        </span>
                       </div>
                     </div>
                   ))}
